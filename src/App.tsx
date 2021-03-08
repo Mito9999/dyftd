@@ -19,6 +19,7 @@ import {
   FormControl,
 } from "@chakra-ui/react";
 import CustomModal from "./CustomModal";
+import { convertToTitleCase } from "./utils";
 
 const SERVER_URL =
   window.location.hostname === "localhost"
@@ -138,6 +139,33 @@ const App: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [switchValues]);
 
+  const tableHeaders = (() => {
+    const tableHeaderArray = [];
+    for (const time in switchValues["Sunday"]) {
+      tableHeaderArray.push(<Th key={time}>{convertToTitleCase(time)}</Th>);
+    }
+
+    return tableHeaderArray;
+  })();
+
+  const tableData = (day: DaysOfTheWeek) => {
+    const tableDataArray = [];
+    for (const time in switchValues["Sunday"]) {
+      tableDataArray.push(
+        <Td>
+          <Switch
+            isDisabled={isLoading}
+            isChecked={switchValues[day][time]}
+            onChange={() => handleSwitchChange(day, time)}
+            size="lg"
+          />
+        </Td>
+      );
+    }
+
+    return tableDataArray;
+  };
+
   return (
     <Container maxW="750px" centerContent>
       <Heading mt="40px">Did You Feed the Dog?</Heading>
@@ -155,30 +183,14 @@ const App: React.FC = () => {
         <Thead>
           <Tr>
             <Th></Th>
-            <Th>Morning</Th>
-            <Th>Afternoon</Th>
+            {tableHeaders}
           </Tr>
         </Thead>
         <Tbody>
           {days.map((day) => (
             <Tr key={day} height="70px">
               <Td>{day}</Td>
-              <Td>
-                <Switch
-                  isDisabled={isLoading}
-                  isChecked={switchValues[day].morning}
-                  onChange={() => handleSwitchChange(day, "morning")}
-                  size="lg"
-                />
-              </Td>
-              <Td>
-                <Switch
-                  isDisabled={isLoading}
-                  isChecked={switchValues[day].afternoon}
-                  onChange={() => handleSwitchChange(day, "afternoon")}
-                  size="lg"
-                />
-              </Td>
+              {tableData(day)}
             </Tr>
           ))}
         </Tbody>
