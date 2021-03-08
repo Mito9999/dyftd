@@ -6,13 +6,13 @@ import {
   Select,
   useColorMode,
 } from "@chakra-ui/react";
-import CustomModal from "./CustomModal";
+import ModalTemplate from "./ModalTemplate";
 
 const SettingsModal: React.FC = () => {
   const { colorMode, setColorMode } = useColorMode();
 
   return (
-    <CustomModal title="Settings" closeButton="Close">
+    <ModalTemplate title="Settings" closeButton="Close">
       <FormControl>
         <Flex justify="space-between" align="center">
           <FormLabel mb={0}>Theme: </FormLabel>
@@ -26,7 +26,7 @@ const SettingsModal: React.FC = () => {
           </Select>
         </Flex>
       </FormControl>
-    </CustomModal>
+    </ModalTemplate>
   );
 };
 

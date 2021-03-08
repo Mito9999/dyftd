@@ -17,7 +17,7 @@ type Props = {
   actionButton?: string;
 };
 
-const CustomModal: React.FC<Props> = (props) => {
+const ModalTemplate: React.FC<Props> = (props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
@@ -48,4 +48,4 @@ const CustomModal: React.FC<Props> = (props) => {
   );
 };
 
-export default CustomModal;
+export default ModalTemplate;

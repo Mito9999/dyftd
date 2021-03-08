@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Table, Thead, Tr, Th, Tbody, Td, Switch } from "@chakra-ui/react";
 import { DaysOfTheWeek, SwitchValues } from "../types";
 import { days } from "../contants";
+import { Table, Thead, Tr, Th, Tbody, Td, Switch } from "@chakra-ui/react";
 
 type Props = {
   tableHeaders: string[];

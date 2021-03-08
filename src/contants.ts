@@ -1,4 +1,4 @@
-import { DaysOfTheWeek } from "./types";
+import { DaysOfTheWeek, SwitchValues } from "./types";
 
 export const days: DaysOfTheWeek[] = [
   "Sunday",
@@ -9,3 +9,13 @@ export const days: DaysOfTheWeek[] = [
   "Friday",
   "Saturday",
 ];
+
+export const defaultSwitchValues: SwitchValues = {
+  Sunday: { morning: false, afternoon: false },
+  Monday: { morning: false, afternoon: false },
+  Tuesday: { morning: false, afternoon: false },
+  Wednesday: { morning: false, afternoon: false },
+  Thursday: { morning: false, afternoon: false },
+  Friday: { morning: false, afternoon: false },
+  Saturday: { morning: false, afternoon: false },
+};

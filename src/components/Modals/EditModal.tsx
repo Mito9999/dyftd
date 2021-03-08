@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { SwitchValues } from "../../types";
 import {
   Select,
   FormLabel,
@@ -6,9 +7,8 @@ import {
   Input,
   Button,
 } from "@chakra-ui/react";
-import CustomModal from "./CustomModal";
 import { MdAdd, MdClose } from "react-icons/md";
-import { SwitchValues } from "../types";
+import ModalTemplate from "./ModalTemplate";
 
 type Props = {
   switchValues: SwitchValues;
@@ -27,7 +27,7 @@ const SettingsModal: React.FC<Props> = ({
   );
 
   return (
-    <CustomModal title="Edit" closeButton="Close">
+    <ModalTemplate title="Edit" closeButton="Close">
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -80,7 +80,7 @@ const SettingsModal: React.FC<Props> = ({
           Delete
         </Button>
       </form>
-    </CustomModal>
+    </ModalTemplate>
   );
 };
 

@@ -1,25 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Container, Heading, ButtonGroup, useToast } from "@chakra-ui/react";
-import LoadingIndicator from "./LoadingIndicator";
 import { SwitchValues } from "../types";
+import { defaultSwitchValues } from "../contants";
+import { Container, Heading, ButtonGroup, useToast } from "@chakra-ui/react";
+import SettingsModal from "./Modals/SettingsModal";
+import EditModal from "./Modals/EditModal";
+import LoadingIndicator from "./LoadingIndicator";
 import SwitchTable from "./SwitchTable";
-import SettingsModal from "./SettingsModal";
-import EditModal from "./EditModal";
 
 const SERVER_URL =
   window.location.hostname === "localhost"
     ? "http://localhost:5001/api"
     : "https://dyftd.vercel.app/api";
-
-const defaultSwitchValues: SwitchValues = {
-  Sunday: { morning: false, afternoon: false },
-  Monday: { morning: false, afternoon: false },
-  Tuesday: { morning: false, afternoon: false },
-  Wednesday: { morning: false, afternoon: false },
-  Thursday: { morning: false, afternoon: false },
-  Friday: { morning: false, afternoon: false },
-  Saturday: { morning: false, afternoon: false },
-};
 
 const getSwitchValues = async () => {
   try {
