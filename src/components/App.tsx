@@ -21,6 +21,7 @@ import {
   Button,
 } from "@chakra-ui/react";
 import CustomModal from "./CustomModal";
+import { MdAdd, MdClose } from "react-icons/md";
 
 const SERVER_URL =
   window.location.hostname === "localhost"
@@ -81,7 +82,9 @@ const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [progressValue, setProgressValue] = useState<number | undefined>(100);
   const [newColumnText, setNewColumnText] = useState<string>("");
-  const [removeColumnText, setRemoveColumnText] = useState<string>("");
+  const [removeColumnText, setRemoveColumnText] = useState<string>(
+    Object.keys(switchValues["Sunday"])[0]
+  );
 
   const handleSwitchChange = (day: DaysOfTheWeek, time: string) => {
     setSwitchValues((prev) => ({
@@ -213,17 +216,20 @@ const App: React.FC = () => {
       >
         <CustomModal title="Settings" closeButton="Close">
           <FormControl>
-            <FormLabel>Theme: </FormLabel>
-            <Select
-              defaultValue={colorMode}
-              onChange={(e) => setColorMode(e.target.value)}
-            >
-              <option value="light">Light</option>
-              <option value="dark">Dark</option>
-            </Select>
+            <Flex justify="space-between" align="center">
+              Theme:
+              <Select
+                defaultValue={colorMode}
+                onChange={(e) => setColorMode(e.target.value)}
+                w="50%"
+              >
+                <option value="light">Light</option>
+                <option value="dark">Dark</option>
+              </Select>
+            </Flex>
           </FormControl>
         </CustomModal>
-        <CustomModal title="Edit" closeButton="Close" actionButton="Update">
+        <CustomModal title="Edit" closeButton="Close">
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -238,12 +244,20 @@ const App: React.FC = () => {
               setNewColumnText("");
             }}
           >
-            <FormControl>
+            <FormControl mt={3}>
               <FormLabel>Add Column: </FormLabel>
               <Input
                 value={newColumnText}
                 onChange={(e) => setNewColumnText(e.target.value)}
               />
+              <Button
+                type="submit"
+                colorScheme="green"
+                mt={3}
+                leftIcon={<MdAdd />}
+              >
+                Create
+              </Button>
             </FormControl>
           </form>
           <form
@@ -253,12 +267,12 @@ const App: React.FC = () => {
               for (const value in values) {
                 delete values[value][removeColumnText];
               }
-              console.log(values);
+
               setSwitchValues(values);
               setRemoveColumnText("");
             }}
           >
-            <FormControl>
+            <FormControl mt={9}>
               <FormLabel>Remove Column: </FormLabel>
               <Select
                 value={removeColumnText}
@@ -269,7 +283,14 @@ const App: React.FC = () => {
                 ))}
               </Select>
             </FormControl>
-            <Button type="submit">Change</Button>
+            <Button
+              type="submit"
+              colorScheme="red"
+              mt={3}
+              leftIcon={<MdClose />}
+            >
+              Delete
+            </Button>
           </form>
         </CustomModal>
       </ButtonGroup>
