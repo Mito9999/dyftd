@@ -6,26 +6,25 @@ type Props = {
 };
 
 const LoadingIndicator: React.FC<Props> = ({ isLoading = true }) => {
-  const [progressValue, setProgressValue] = useState<number | undefined>(100);
+  // Using a delay for faster connections. If the user loads the page quickly,
+  // the progress bar will no longer flash for a fraction of a second.
+  // Instead, it just won't show up for them at all.
+  const [isDelayPassed, setIsDelayPassed] = useState<boolean>(false);
 
   useEffect(() => {
-    const progressTimeoutID = setTimeout(() => {
-      setProgressValue(undefined);
+    const delayTimeoutID = setTimeout(() => {
+      setIsDelayPassed(true);
     }, 200);
+
     return () => {
-      clearInterval(progressTimeoutID);
+      clearInterval(delayTimeoutID);
     };
   }, []);
 
   return (
     <Flex my="15px" minW="100%" h="4px" justify="center" align="center">
-      {(isLoading || progressValue) && (
-        <Progress
-          minW="100%"
-          h="4px"
-          isIndeterminate={progressValue === undefined}
-          value={progressValue}
-        />
+      {isLoading && isDelayPassed && (
+        <Progress minW="100%" h="4px" isIndeterminate />
       )}
     </Flex>
   );
