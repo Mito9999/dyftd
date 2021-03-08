@@ -9,7 +9,8 @@ import {
   Tr,
   Th,
   Td,
-  Spinner,
+  Progress,
+  Flex,
 } from "@chakra-ui/react";
 
 const SERVER_URL =
@@ -65,7 +66,7 @@ const App: React.FC = () => {
   const [switchValues, setSwitchValues] = useState<SwitchValues>(
     defaultSwitchValues
   );
-  const [isInitialLoad, setIsInitialLoad] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const handleSwitchChange = (day: DaysOfTheWeek, time: TimeValue) => {
     setSwitchValues((prev) => ({
@@ -76,9 +77,10 @@ const App: React.FC = () => {
 
   useEffect(() => {
     (async () => {
+      setIsLoading(true);
       const values = await getSwitchValues();
       setSwitchValues(values);
-      setIsInitialLoad(false);
+      setIsLoading(false);
     })();
   }, []);
 
@@ -92,13 +94,16 @@ const App: React.FC = () => {
         body: JSON.stringify(switchValues),
       });
     };
-    !isInitialLoad && postSwitchValues();
+    !isLoading && postSwitchValues();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [switchValues]);
 
   return (
     <Container maxW="750px" centerContent>
-      <Heading my="40px">Did You Feed the Dog?</Heading>
+      <Heading mt="40px">Did You Feed the Dog?</Heading>
+      <Flex my="15px" minW="100%" justify="center" align="center">
+        {isLoading && <Progress minW="100%" size="xs" isIndeterminate />}
+      </Flex>
       <Table variant="simple">
         <Thead>
           <Tr>
@@ -112,26 +117,20 @@ const App: React.FC = () => {
             <Tr key={day} height="70px">
               <Td>{day}</Td>
               <Td>
-                {isInitialLoad ? (
-                  <Spinner size="md" />
-                ) : (
-                  <Switch
-                    isChecked={switchValues[day].morning}
-                    onChange={() => handleSwitchChange(day, "morning")}
-                    size="lg"
-                  />
-                )}
+                <Switch
+                  isDisabled={isLoading}
+                  isChecked={switchValues[day].morning}
+                  onChange={() => handleSwitchChange(day, "morning")}
+                  size="lg"
+                />
               </Td>
               <Td>
-                {isInitialLoad ? (
-                  <Spinner size="md" />
-                ) : (
-                  <Switch
-                    isChecked={switchValues[day].afternoon}
-                    onChange={() => handleSwitchChange(day, "afternoon")}
-                    size="lg"
-                  />
-                )}
+                <Switch
+                  isDisabled={isLoading}
+                  isChecked={switchValues[day].afternoon}
+                  onChange={() => handleSwitchChange(day, "afternoon")}
+                  size="lg"
+                />
               </Td>
             </Tr>
           ))}
