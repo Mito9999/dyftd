@@ -27,7 +27,7 @@ app.post("/", (req, res) => {
   res.json(switchValues);
 });
 
-app.listen(PORT, () => {
+module.exports = app.listen(PORT, () => {
   console.log(`Frontend: http://localhost:${PORT - 1}/`);
   console.log(`Backend: http://localhost:${PORT}/`);
 });
