@@ -11,7 +11,6 @@ import {
   Td,
   Progress,
   Flex,
-  Button,
   ButtonGroup,
 } from "@chakra-ui/react";
 import CustomModal from "./CustomModal";
@@ -70,6 +69,7 @@ const App: React.FC = () => {
     defaultSwitchValues
   );
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [progressValue, setProgressValue] = useState<number | undefined>(100);
 
   const handleSwitchChange = (day: DaysOfTheWeek, time: TimeValue) => {
     setSwitchValues((prev) => ({
@@ -85,6 +85,13 @@ const App: React.FC = () => {
       setSwitchValues(values);
       setIsLoading(false);
     })();
+
+    const progressTimeoutID = setTimeout(() => {
+      setProgressValue(undefined);
+    }, 200);
+    return () => {
+      clearInterval(progressTimeoutID);
+    };
   }, []);
 
   useEffect(() => {
@@ -105,7 +112,14 @@ const App: React.FC = () => {
     <Container maxW="750px" centerContent>
       <Heading mt="40px">Did You Feed the Dog?</Heading>
       <Flex my="15px" minW="100%" h="4px" justify="center" align="center">
-        {isLoading && <Progress minW="100%" h="4px" isIndeterminate />}
+        {(isLoading || progressValue) && (
+          <Progress
+            minW="100%"
+            h="4px"
+            isIndeterminate={progressValue === undefined}
+            value={progressValue}
+          />
+        )}
       </Flex>
       <Table variant="simple">
         <Thead>
