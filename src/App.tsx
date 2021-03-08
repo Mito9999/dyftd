@@ -12,6 +12,7 @@ import {
   Progress,
   Flex,
   ButtonGroup,
+  useToast,
 } from "@chakra-ui/react";
 import CustomModal from "./CustomModal";
 
@@ -65,6 +66,7 @@ const getSwitchValues = async () => {
 };
 
 const App: React.FC = () => {
+  const toast = useToast();
   const [switchValues, setSwitchValues] = useState<SwitchValues>(
     defaultSwitchValues
   );
@@ -95,16 +97,38 @@ const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    const postSwitchValues = async () => {
-      await fetch(SERVER_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(switchValues),
-      });
-    };
-    !isLoading && postSwitchValues();
+    try {
+      const postSwitchValues = async () => {
+        await fetch(SERVER_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(switchValues),
+        });
+      };
+      if (!isLoading) {
+        postSwitchValues()
+          .then(() => {
+            toast({
+              title: "Switch Updated!",
+              description: "Your changes have been saved successfully.",
+              status: "success",
+              duration: 3000,
+              isClosable: true,
+            });
+          })
+          .catch(() => {
+            toast({
+              title: "Failed to Update Switch!",
+              description: "Your changes have not been saved.",
+              status: "error",
+              duration: 3000,
+              isClosable: true,
+            });
+          });
+      }
+    } catch {}
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [switchValues]);
 
