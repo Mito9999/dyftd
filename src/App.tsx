@@ -13,6 +13,10 @@ import {
   Flex,
   ButtonGroup,
   useToast,
+  useColorMode,
+  Select,
+  FormLabel,
+  FormControl,
 } from "@chakra-ui/react";
 import CustomModal from "./CustomModal";
 
@@ -66,7 +70,9 @@ const getSwitchValues = async () => {
 };
 
 const App: React.FC = () => {
+  const { colorMode, setColorMode } = useColorMode();
   const toast = useToast();
+
   const [switchValues, setSwitchValues] = useState<SwitchValues>(
     defaultSwitchValues
   );
@@ -184,11 +190,17 @@ const App: React.FC = () => {
         w="100%"
         mt="40px"
       >
-        <CustomModal title="Settings" closeButton="Close" actionButton="Save">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus
-          illo in accusamus cum voluptatum mollitia architecto maxime minus.
-          Voluptate illo iure consequatur eaque, magni accusantium dicta
-          repellat pariatur labore qui!
+        <CustomModal title="Settings" closeButton="Close">
+          <FormControl>
+            <FormLabel as="h3">Theme: </FormLabel>
+            <Select
+              defaultValue={colorMode}
+              onChange={(e) => setColorMode(e.target.value)}
+            >
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+            </Select>
+          </FormControl>
         </CustomModal>
         <CustomModal title="Edit" closeButton="Close" actionButton="Update">
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus

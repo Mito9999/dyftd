@@ -14,7 +14,7 @@ import {
 type Props = {
   title: string;
   closeButton: string;
-  actionButton: string;
+  actionButton?: string;
 };
 
 const CustomModal: React.FC<Props> = (props) => {
@@ -31,10 +31,16 @@ const CustomModal: React.FC<Props> = (props) => {
           <ModalBody>{props.children}</ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
+            <Button
+              colorScheme="blue"
+              mr={props.actionButton ? 3 : 0}
+              onClick={onClose}
+            >
               {props.closeButton}
             </Button>
-            <Button variant="ghost">{props.actionButton}</Button>
+            {props.actionButton && (
+              <Button variant="ghost">{props.actionButton}</Button>
+            )}
           </ModalFooter>
         </ModalContent>
       </Modal>
