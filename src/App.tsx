@@ -11,7 +11,10 @@ import {
   Td,
   Progress,
   Flex,
+  Button,
+  ButtonGroup,
 } from "@chakra-ui/react";
+import CustomModal from "./CustomModal";
 
 const SERVER_URL =
   window.location.hostname === "localhost"
@@ -101,8 +104,8 @@ const App: React.FC = () => {
   return (
     <Container maxW="750px" centerContent>
       <Heading mt="40px">Did You Feed the Dog?</Heading>
-      <Flex my="15px" minW="100%" justify="center" align="center">
-        {isLoading && <Progress minW="100%" size="xs" isIndeterminate />}
+      <Flex my="15px" minW="100%" h="4px" justify="center" align="center">
+        {isLoading && <Progress minW="100%" h="4px" isIndeterminate />}
       </Flex>
       <Table variant="simple">
         <Thead>
@@ -136,6 +139,26 @@ const App: React.FC = () => {
           ))}
         </Tbody>
       </Table>
+      <ButtonGroup
+        d="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        w="100%"
+        mt="40px"
+      >
+        <CustomModal title="Settings" closeButton="Close" actionButton="Save">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus
+          illo in accusamus cum voluptatum mollitia architecto maxime minus.
+          Voluptate illo iure consequatur eaque, magni accusantium dicta
+          repellat pariatur labore qui!
+        </CustomModal>
+        <CustomModal title="Edit" closeButton="Close" actionButton="Update">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus
+          illo in accusamus cum voluptatum mollitia architecto maxime minus.
+          Voluptate illo iure consequatur eaque, magni accusantium dicta
+          repellat pariatur labore qui!
+        </CustomModal>
+      </ButtonGroup>
     </Container>
   );
 };
