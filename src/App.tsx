@@ -17,6 +17,7 @@ import {
   Select,
   FormLabel,
   FormControl,
+  Input,
 } from "@chakra-ui/react";
 import CustomModal from "./CustomModal";
 import { convertToTitleCase } from "./utils";
@@ -34,10 +35,10 @@ type DaysOfTheWeek =
   | "Thursday"
   | "Friday"
   | "Saturday";
-type TimeValue = "morning" | "afternoon" | string;
+// first key is DaysOfTheWeek, tempfix was making it string
 type SwitchValues = {
-  [key in DaysOfTheWeek]: {
-    [key in TimeValue]: boolean;
+  [key: string]: {
+    [key: string]: boolean;
   };
 };
 
@@ -79,8 +80,9 @@ const App: React.FC = () => {
   );
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [progressValue, setProgressValue] = useState<number | undefined>(100);
+  const [newColumnText, setNewColumnText] = useState<string>("");
 
-  const handleSwitchChange = (day: DaysOfTheWeek, time: TimeValue) => {
+  const handleSwitchChange = (day: DaysOfTheWeek, time: string) => {
     setSwitchValues((prev) => ({
       ...prev,
       [day]: { ...prev[day], [time]: !prev[day][time] },
@@ -208,7 +210,7 @@ const App: React.FC = () => {
       >
         <CustomModal title="Settings" closeButton="Close">
           <FormControl>
-            <FormLabel as="h3">Theme: </FormLabel>
+            <FormLabel>Theme: </FormLabel>
             <Select
               defaultValue={colorMode}
               onChange={(e) => setColorMode(e.target.value)}
@@ -219,10 +221,27 @@ const App: React.FC = () => {
           </FormControl>
         </CustomModal>
         <CustomModal title="Edit" closeButton="Close" actionButton="Update">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus
-          illo in accusamus cum voluptatum mollitia architecto maxime minus.
-          Voluptate illo iure consequatur eaque, magni accusantium dicta
-          repellat pariatur labore qui!
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              let values: SwitchValues = { ...switchValues };
+              for (const value in values) {
+                values[value] = { ...values[value], [newColumnText]: false };
+              }
+              setSwitchValues((prev) => ({
+                ...prev,
+                ...values,
+              }));
+            }}
+          >
+            <FormControl>
+              <FormLabel>Add a Column: </FormLabel>
+              <Input
+                value={newColumnText}
+                onChange={(e) => setNewColumnText(e.target.value)}
+              />
+            </FormControl>
+          </form>
         </CustomModal>
       </ButtonGroup>
     </Container>
