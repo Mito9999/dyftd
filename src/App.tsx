@@ -142,7 +142,11 @@ const App: React.FC = () => {
   const tableHeaders = (() => {
     const tableHeaderArray = [];
     for (const time in switchValues["Sunday"]) {
-      tableHeaderArray.push(<Th key={time}>{convertToTitleCase(time)}</Th>);
+      tableHeaderArray.push(
+        <Th key={time} maxWidth="100px">
+          {convertToTitleCase(time)}
+        </Th>
+      );
     }
 
     return tableHeaderArray;
@@ -152,7 +156,7 @@ const App: React.FC = () => {
     const tableDataArray = [];
     for (const time in switchValues["Sunday"]) {
       tableDataArray.push(
-        <Td>
+        <Td key={`${day} - ${time}`} maxWidth="100px">
           <Switch
             isDisabled={isLoading}
             isChecked={switchValues[day][time]}
