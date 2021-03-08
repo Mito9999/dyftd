@@ -18,11 +18,11 @@ let switchValues = {
   Saturday: { morning: false, afternoon: false },
 };
 
-app.get("/", (_, res) => {
+app.get("/api", (_, res) => {
   res.json(switchValues);
 });
 
-app.post("/", (req, res) => {
+app.post("/api", (req, res) => {
   switchValues = req.body;
   res.json(switchValues);
 });

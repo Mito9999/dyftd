@@ -14,8 +14,8 @@ import {
 
 const SERVER_URL =
   window.location.hostname === "localhost"
-    ? "http://localhost:5001/"
-    : "https://dyftd.vercel.app/";
+    ? "http://localhost:5001/api"
+    : "https://dyftd.vercel.app/api";
 
 type DaysOfTheWeek =
   | "Sunday"
