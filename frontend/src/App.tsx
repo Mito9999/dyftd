@@ -12,6 +12,11 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 
+const SERVER_URL =
+  window.location.hostname === "localhost"
+    ? "http://localhost:5001/"
+    : "https://dyftd.vercel.app/";
+
 type DaysOfTheWeek =
   | "Sunday"
   | "Monday"
@@ -48,7 +53,7 @@ const defaultSwitchValues: SwitchValues = {
 
 const getSwitchValues = async () => {
   try {
-    const res = await fetch("http://localhost:5001/");
+    const res = await fetch(SERVER_URL);
     const data: SwitchValues = await res.json();
     return data;
   } catch {
@@ -79,7 +84,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const postSwitchValues = async () => {
-      await fetch("http://localhost:5001/", {
+      await fetch(SERVER_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
