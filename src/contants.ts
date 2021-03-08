@@ -19,3 +19,8 @@ export const defaultSwitchValues: SwitchValues = {
   Friday: { morning: false, afternoon: false },
   Saturday: { morning: false, afternoon: false },
 };
+
+export const SERVER_URL =
+  window.location.hostname === "localhost"
+    ? "http://localhost:5001/api"
+    : "https://dyftd.vercel.app/api";

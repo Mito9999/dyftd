@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { SwitchValues } from "../types";
-import { defaultSwitchValues } from "../contants";
+import { defaultSwitchValues, SERVER_URL } from "../contants";
 import { Container, Heading, ButtonGroup, useToast } from "@chakra-ui/react";
 import SettingsModal from "./Modals/SettingsModal";
+import GroupModal from "./Modals/GroupModal";
 import EditModal from "./Modals/EditModal";
 import LoadingIndicator from "./LoadingIndicator";
 import SwitchTable from "./SwitchTable";
-
-const SERVER_URL =
-  window.location.hostname === "localhost"
-    ? "http://localhost:5001/api"
-    : "https://dyftd.vercel.app/api";
 
 const getSwitchValues = async () => {
   try {
@@ -102,6 +98,7 @@ const App: React.FC = () => {
         mt="40px"
       >
         <SettingsModal />
+        <GroupModal />
         <EditModal
           switchValues={switchValues}
           setSwitchValues={setSwitchValues}
