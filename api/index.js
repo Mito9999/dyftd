@@ -27,6 +27,10 @@ app.post("/api", (req, res) => {
   res.json(switchValues);
 });
 
+app.get("/api/groups", (_, res) => {
+  setTimeout(() => res.json({ test: 123 }), 1000);
+});
+
 module.exports = app.listen(PORT, () => {
   console.log(`Frontend: http://localhost:${PORT - 1}/`);
   console.log(`Backend: http://localhost:${PORT}/`);
