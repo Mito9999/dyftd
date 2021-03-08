@@ -18,9 +18,9 @@ import {
   FormLabel,
   FormControl,
   Input,
+  Button,
 } from "@chakra-ui/react";
 import CustomModal from "./CustomModal";
-import { convertToTitleCase } from "./utils";
 
 const SERVER_URL =
   window.location.hostname === "localhost"
@@ -81,6 +81,7 @@ const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [progressValue, setProgressValue] = useState<number | undefined>(100);
   const [newColumnText, setNewColumnText] = useState<string>("");
+  const [removeColumnText, setRemoveColumnText] = useState<string>("");
 
   const handleSwitchChange = (day: DaysOfTheWeek, time: string) => {
     setSwitchValues((prev) => ({
@@ -120,7 +121,7 @@ const App: React.FC = () => {
         postSwitchValues()
           .then(() => {
             toast({
-              title: "Switch Updated!",
+              title: "Switches Updated!",
               description: "Your changes have been saved successfully.",
               status: "success",
               duration: 3000,
@@ -129,7 +130,7 @@ const App: React.FC = () => {
           })
           .catch(() => {
             toast({
-              title: "Failed to Update Switch!",
+              title: "Failed to Update Switches!",
               description: "Your changes have not been saved.",
               status: "error",
               duration: 3000,
@@ -144,11 +145,7 @@ const App: React.FC = () => {
   const tableHeaders = (() => {
     const tableHeaderArray = [];
     for (const time in switchValues["Sunday"]) {
-      tableHeaderArray.push(
-        <Th key={time} maxWidth="100px">
-          {convertToTitleCase(time)}
-        </Th>
-      );
+      tableHeaderArray.push(time);
     }
 
     return tableHeaderArray;
@@ -185,22 +182,28 @@ const App: React.FC = () => {
           />
         )}
       </Flex>
-      <Table variant="simple">
-        <Thead>
-          <Tr>
-            <Th></Th>
-            {tableHeaders}
-          </Tr>
-        </Thead>
-        <Tbody>
-          {days.map((day) => (
-            <Tr key={day} height="70px">
-              <Td>{day}</Td>
-              {tableData(day)}
+      <div style={{ width: "100%", overflowX: "scroll" }}>
+        <Table variant="simple">
+          <Thead>
+            <Tr>
+              <Th></Th>
+              {tableHeaders.map((header) => (
+                <Th key={header} maxWidth="100px">
+                  {header}
+                </Th>
+              ))}
             </Tr>
-          ))}
-        </Tbody>
-      </Table>
+          </Thead>
+          <Tbody>
+            {days.map((day) => (
+              <Tr key={day} height="70px">
+                <Td>{day}</Td>
+                {tableData(day)}
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+      </div>
       <ButtonGroup
         d="flex"
         justifyContent="space-between"
@@ -232,15 +235,41 @@ const App: React.FC = () => {
                 ...prev,
                 ...values,
               }));
+              setNewColumnText("");
             }}
           >
             <FormControl>
-              <FormLabel>Add a Column: </FormLabel>
+              <FormLabel>Add Column: </FormLabel>
               <Input
                 value={newColumnText}
                 onChange={(e) => setNewColumnText(e.target.value)}
               />
             </FormControl>
+          </form>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              let values: SwitchValues = { ...switchValues };
+              for (const value in values) {
+                delete values[value][removeColumnText];
+              }
+              console.log(values);
+              setSwitchValues(values);
+              setRemoveColumnText("");
+            }}
+          >
+            <FormControl>
+              <FormLabel>Remove Column: </FormLabel>
+              <Select
+                value={removeColumnText}
+                onChange={(e) => setRemoveColumnText(e.target.value)}
+              >
+                {tableHeaders.map((header) => (
+                  <option key={`${header} column`}>{header}</option>
+                ))}
+              </Select>
+            </FormControl>
+            <Button type="submit">Change</Button>
           </form>
         </CustomModal>
       </ButtonGroup>
