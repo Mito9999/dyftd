@@ -9,13 +9,13 @@ app.use(cors());
 const PORT = 5001;
 
 let switchValues = {
-  Sunday: { morning: false, afternoon: false, midnight: false },
-  Monday: { morning: false, afternoon: false, midnight: false },
-  Tuesday: { morning: false, afternoon: false, midnight: false },
-  Wednesday: { morning: false, afternoon: false, midnight: false },
-  Thursday: { morning: false, afternoon: false, midnight: false },
-  Friday: { morning: false, afternoon: false, midnight: false },
-  Saturday: { morning: false, afternoon: false, midnight: false },
+  Sunday: { morning: false, afternoon: false },
+  Monday: { morning: false, afternoon: false },
+  Tuesday: { morning: false, afternoon: false },
+  Wednesday: { morning: false, afternoon: false },
+  Thursday: { morning: false, afternoon: false },
+  Friday: { morning: false, afternoon: false },
+  Saturday: { morning: false, afternoon: false },
 };
 
 app.get("/api", (_, res) => {

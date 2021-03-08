@@ -5,6 +5,9 @@ const config: ThemeConfig = {
   useSystemColorMode: false,
 };
 
-const theme = extendTheme({ config });
+const theme = extendTheme({
+  config,
+  styles: { global: { body: { overflowX: "hidden" } } },
+});
 
 export default theme;

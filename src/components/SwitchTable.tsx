@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Table, Thead, Tr, Th, Tbody, Td, Switch } from "@chakra-ui/react";
 import { DaysOfTheWeek, SwitchValues } from "../types";
 import { days } from "../contants";
@@ -41,8 +41,33 @@ const SwitchTable: React.FC<Props> = ({
     }));
   };
 
+  const divRef = React.useRef<HTMLDivElement>(null);
+  const [isScrollable, setIsScrollable] = useState<boolean>(false);
+
+  useEffect(() => {
+    const scrollCallback = () => {
+      const scrollable =
+        divRef.current?.offsetWidth! < divRef.current?.scrollWidth!;
+
+      setIsScrollable(scrollable);
+    };
+
+    window.addEventListener("resize", scrollCallback);
+
+    return () => {
+      window.removeEventListener("resize", scrollCallback);
+    };
+  }, []);
+
+  useEffect(() => {
+    console.log("change");
+  }, [divRef]);
+
   return (
-    <div style={{ width: "100%", overflowX: "scroll" }}>
+    <div
+      ref={divRef}
+      style={{ width: "100%", overflowX: isScrollable ? "scroll" : "hidden" }}
+    >
       <Table variant="simple">
         <Thead>
           <Tr>
