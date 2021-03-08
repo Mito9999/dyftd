@@ -14,6 +14,7 @@ import {
 type Props = {
   title: string;
   closeButton: string;
+  closeFn?: null | (() => any);
   actionButton?: string;
   actionFn?: () => any;
 };
@@ -35,7 +36,7 @@ const ModalTemplate: React.FC<Props> = (props) => {
             <Button
               colorScheme="blue"
               mr={props.actionButton ? 3 : 0}
-              onClick={onClose}
+              onClick={props.closeFn || onClose}
             >
               {props.closeButton}
             </Button>

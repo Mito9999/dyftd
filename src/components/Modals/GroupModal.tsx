@@ -19,13 +19,22 @@ const SettingsModal: React.FC = () => {
   const [page, setPage] = useState<number>(1);
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
+  const maxPages = 3;
+
   return (
     <ModalTemplate
       title="Group"
-      closeButton="Close"
+      closeButton={page === 1 ? "Close" : "Back"}
+      closeFn={
+        page === 1
+          ? null
+          : () => {
+              setPage((prev) => (prev <= 1 ? prev : prev - 1));
+            }
+      }
       actionButton="Next"
       actionFn={() => {
-        setPage((prev) => prev + 1);
+        setPage((prev) => (prev >= maxPages ? prev : prev + 1));
       }}
     >
       <Flex minH="200px" justify="center" align="center">
@@ -77,7 +86,7 @@ const SettingsModal: React.FC = () => {
             </form>
           </SlideFade>
         )}
-        {page > 2 && (
+        {page >= maxPages && (
           <SlideFade in={true}>
             <h2>Group has been found</h2>
           </SlideFade>
