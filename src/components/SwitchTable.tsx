@@ -16,6 +16,13 @@ const SwitchTable: React.FC<Props> = ({
   isLoading,
   setSwitchValues,
 }) => {
+  const handleSwitchChange = (day: DaysOfTheWeek, time: string) => {
+    setSwitchValues((prev) => ({
+      ...prev,
+      [day]: { ...prev[day], [time]: !prev[day][time] },
+    }));
+  };
+
   const tableData = (day: DaysOfTheWeek) => {
     const tableDataArray = [];
     for (const time in switchValues["Sunday"]) {
@@ -34,13 +41,6 @@ const SwitchTable: React.FC<Props> = ({
     return tableDataArray;
   };
 
-  const handleSwitchChange = (day: DaysOfTheWeek, time: string) => {
-    setSwitchValues((prev) => ({
-      ...prev,
-      [day]: { ...prev[day], [time]: !prev[day][time] },
-    }));
-  };
-
   const divRef = React.useRef<HTMLDivElement>(null);
   const [isScrollable, setIsScrollable] = useState<boolean>(false);
 
@@ -51,17 +51,13 @@ const SwitchTable: React.FC<Props> = ({
 
       setIsScrollable(scrollable);
     };
-
+    !isLoading && scrollCallback();
     window.addEventListener("resize", scrollCallback);
 
     return () => {
       window.removeEventListener("resize", scrollCallback);
     };
-  }, []);
-
-  useEffect(() => {
-    console.log("change");
-  }, [divRef]);
+  }, [isLoading]);
 
   return (
     <div

@@ -7,7 +7,11 @@ const config: ThemeConfig = {
 
 const theme = extendTheme({
   config,
-  styles: { global: { body: { overflowX: "hidden" } } },
+  styles: {
+    global: {
+      body: { overflowX: "hidden !important" },
+    },
+  },
 });
 
 export default theme;
