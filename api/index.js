@@ -67,6 +67,24 @@ app.post("/api/group/:groupId", (req, res) => {
   }, 1000);
 });
 
+app.post("/api/group/create/:groupId", (req, res) => {
+  const { groupId } = req.params;
+  const { password } = req.body;
+
+  setTimeout(() => {
+    const groupExists = groups.find((g) => g.number === Number(groupId));
+    if (!groupExists) {
+      groups.push({
+        number: Number(groupId),
+        password,
+      });
+      res.status(200).json({ message: "Group Created!" });
+    } else {
+      res.status(404).json({ message: "Failed to create group." });
+    }
+  }, 1000);
+});
+
 module.exports = app.listen(PORT, () => {
   console.log(`Frontend: http://localhost:${PORT - 1}/`);
   console.log(`Backend: http://localhost:${PORT}/`);
