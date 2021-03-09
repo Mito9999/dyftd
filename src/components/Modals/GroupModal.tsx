@@ -35,14 +35,14 @@ const SettingsModal: React.FC = () => {
   const [password, setPassword] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
 
+  const groupURL = `${SERVER_URL}/group/${
+    firstPage === "join" ? group : `create/${newGroup}`
+  }`; // either /group/GROUP or /group/create/NEW_GROUP
+
   const submitCode = async () => {
     setIsLoading(true);
     try {
-      const res = await fetch(
-        `${SERVER_URL}/group/${firstPage === "join" ? "" : "create/"}${
-          firstPage === "join" ? group : newGroup
-        }`
-      );
+      const res = await fetch(groupURL);
       await res.json();
       if (!res.ok) {
         throw new Error("There was an unknown error");
@@ -63,12 +63,14 @@ const SettingsModal: React.FC = () => {
   const submitPassword = async () => {
     setIsLoading(true);
     try {
-      const res = await fetch(`${SERVER_URL}/group/${group}`, {
+      const res = await fetch(groupURL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ password }),
+        body: JSON.stringify({
+          password: firstPage === "join" ? password : newPassword,
+        }),
       });
       await res.json();
       if (!res.ok) {
@@ -78,33 +80,10 @@ const SettingsModal: React.FC = () => {
       setError("");
       setPage(3);
     } catch {
-      setError("Incorrect password.");
-      setPassword("");
-      setPage(2);
-    }
-    setIsLoading(false);
-  };
-
-  const createPassword = async () => {
-    setIsLoading(true);
-    try {
-      const res = await fetch(`${SERVER_URL}/group/create/${newGroup}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ password: newPassword }),
-      });
-      await res.json();
-      if (!res.ok) {
-        throw new Error("Failed to create group");
-      }
-
-      setError("");
-      setPage(3);
-    } catch {
-      setError("Failed to create group.");
-      setNewPassword("");
+      setError(
+        firstPage === "join" ? "Incorrect password." : "Failed to create group."
+      );
+      firstPage === "join" ? setPassword("") : setNewPassword("");
       setPage(2);
     }
     setIsLoading(false);
@@ -114,7 +93,7 @@ const SettingsModal: React.FC = () => {
     if (page === 1) {
       return submitCode;
     } else if (page === 2) {
-      return firstPage === "join" ? submitPassword : createPassword;
+      return submitPassword;
     } else {
       return () => setPage((prev) => (prev >= maxPages ? prev : prev + 1));
     }
