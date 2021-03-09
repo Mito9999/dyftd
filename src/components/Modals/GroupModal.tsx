@@ -38,36 +38,23 @@ const SettingsModal: React.FC = () => {
   const submitCode = async () => {
     setIsLoading(true);
     try {
-      const res = await fetch(`${SERVER_URL}/group/${group}`);
+      const res = await fetch(
+        `${SERVER_URL}/group/${firstPage === "join" ? "" : "create/"}${
+          firstPage === "join" ? group : newGroup
+        }`
+      );
       await res.json();
       if (!res.ok) {
-        throw new Error("Failed to find group code");
+        throw new Error("There was an unknown error");
       }
 
       setError("");
       setPage(2);
     } catch {
-      setError("Group code not found.");
-      setGroup("");
-      setPage(1);
-    }
-    setIsLoading(false);
-  };
-
-  const createCode = async () => {
-    setIsLoading(true);
-    try {
-      const res = await fetch(`${SERVER_URL}/group/create/${newGroup}`);
-      await res.json();
-      if (!res.ok) {
-        throw new Error("Group code is taken");
-      }
-
-      setError("");
-      setPage(2);
-    } catch {
-      setError("Group code is taken.");
-      setNewGroup("");
+      setError(
+        `Group code ${firstPage === "join" ? "not found" : "is taken"}.`
+      );
+      firstPage === "join" ? setGroup("") : setNewGroup("");
       setPage(1);
     }
     setIsLoading(false);
@@ -125,7 +112,7 @@ const SettingsModal: React.FC = () => {
 
   const determineActionButtonFn = (() => {
     if (page === 1) {
-      return firstPage === "join" ? submitCode : createCode;
+      return submitCode;
     } else if (page === 2) {
       return firstPage === "join" ? submitPassword : createPassword;
     } else {
