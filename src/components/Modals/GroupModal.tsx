@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   FormControl,
   Flex,
@@ -22,6 +22,7 @@ import { SERVER_URL } from "../../contants";
 const SettingsModal: React.FC = () => {
   const [page, setPage] = useState<number>(1);
   const [group, setGroup] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -36,11 +37,39 @@ const SettingsModal: React.FC = () => {
       }
       const data = await res.json();
 
+      console.log(data);
+      setError("");
       setPage(2);
     } catch {
       setError("Group code not found.");
       setGroup("");
       setPage(1);
+    }
+    setIsLoading(false);
+  };
+
+  const submitPassword = async () => {
+    setIsLoading(true);
+    try {
+      const res = await fetch(`${SERVER_URL}/group/${group}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ password }),
+      });
+      if (!res.ok) {
+        throw new Error("Incorrect password");
+      }
+      const data = await res.json();
+
+      console.log(data);
+      setError("");
+      setPage(3);
+    } catch {
+      setError("Incorrect password.");
+      setPassword("");
+      setPage(2);
     }
     setIsLoading(false);
   };
@@ -60,6 +89,8 @@ const SettingsModal: React.FC = () => {
       actionFn={() => {
         page === 1
           ? submitCode()
+          : page === 2
+          ? submitPassword()
           : setPage((prev) => (prev >= maxPages ? prev : prev + 1));
       }}
     >
@@ -105,6 +136,12 @@ const SettingsModal: React.FC = () => {
               <Spinner size="lg" />
             ) : (
               <form>
+                {error.length > 0 && (
+                  <Alert status="error" mb="15px">
+                    <AlertIcon />
+                    {error}
+                  </Alert>
+                )}
                 <FormControl>
                   <FormLabel textAlign="center" mr="0px">
                     Password:
@@ -112,6 +149,8 @@ const SettingsModal: React.FC = () => {
                   <InputGroup size="md">
                     <Input
                       pr="4.5rem"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                       type={showPassword ? "text" : "password"}
                       autoComplete="password"
                       placeholder="Enter password"

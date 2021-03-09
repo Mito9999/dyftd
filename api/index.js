@@ -30,9 +30,11 @@ app.post("/api", (req, res) => {
 const groups = [
   {
     number: 123456,
+    password: "hello",
   },
   {
-    number: 234567,
+    number: 654321,
+    password: "world",
   },
 ];
 
@@ -40,6 +42,23 @@ app.get("/api/group/:groupId", (req, res) => {
   const { groupId } = req.params;
   setTimeout(() => {
     const group = groups.find((g) => g.number === Number(groupId));
+    if (group) {
+      res.status(200).json({ group: group.number });
+    } else {
+      res.status(404).json({ group: null });
+    }
+  }, 1000);
+});
+
+app.post("/api/group/:groupId", (req, res) => {
+  const { groupId } = req.params;
+  const { password } = req.body;
+
+  setTimeout(() => {
+    const group = groups.find(
+      (g) => g.number === Number(groupId) && g.password === password
+    );
+
     if (group) {
       res.status(200).json({ group: group.number });
     } else {
