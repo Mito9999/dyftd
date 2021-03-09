@@ -3,7 +3,7 @@ import { SwitchValues } from "../types";
 import { defaultSwitchValues, SERVER_URL } from "../contants";
 import { Container, Heading, ButtonGroup, useToast } from "@chakra-ui/react";
 import SettingsModal from "./Modals/SettingsModal";
-import GroupModal from "./Modals/GroupModal";
+import GroupModal from "./Modals/GroupModal/index";
 import EditModal from "./Modals/EditModal";
 import LoadingIndicator from "./LoadingIndicator";
 import SwitchTable from "./SwitchTable";
