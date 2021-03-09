@@ -16,7 +16,7 @@ type Props = {
   tableHeaders: string[];
 };
 
-const SettingsModal: React.FC<Props> = ({
+const EditModal: React.FC<Props> = ({
   switchValues,
   setSwitchValues,
   tableHeaders,
@@ -84,4 +84,4 @@ const SettingsModal: React.FC<Props> = ({
   );
 };
 
-export default SettingsModal;
+export default EditModal;

@@ -2,6 +2,7 @@ require("dotenv").config();
 var express = require("express");
 var router = express.Router();
 const MongoClient = require("mongodb").MongoClient;
+const ObjectID = require("mongodb").ObjectID;
 
 MongoClient.connect(process.env.MONGO_URI, {
   useUnifiedTopology: true,
@@ -14,16 +15,19 @@ MongoClient.connect(process.env.MONGO_URI, {
 
     router.get("/", async (_, res) => {
       const switches = await switchesCollection.find().toArray();
-      res.json(switches);
+      res.json(switches[0].values);
     });
 
     router.post("/", async (req, res) => {
       try {
         const newValues = req.body;
-        await switchesCollection.insertOne(newValues);
+        await switchesCollection.updateOne(
+          { _id: ObjectID("6047717901aa1ca65dd5237a") },
+          { $set: { values: newValues } }
+        );
         res.json(newValues);
       } catch {
-        res.status(500);
+        res.status(500).json({ message: "Server Error" });
       }
     });
 
@@ -45,11 +49,14 @@ MongoClient.connect(process.env.MONGO_URI, {
       const { password } = req.body;
 
       const group = await groupsCollection
-        .find({ number: Number(groupId), password })
+        .find({
+          number: Number(groupId),
+          password,
+        })
         .toArray();
-
-      if (group) {
-        res.status(200).json({ group: group.number });
+      console.log(group);
+      if (group.length === 1) {
+        res.status(200).json({ group: group[0].number });
       } else {
         res.status(404).json({ group: null });
       }
@@ -76,10 +83,10 @@ MongoClient.connect(process.env.MONGO_URI, {
     });
 
     // NOT FOR PRODUCTION
-    // router.get("/groups", async (req, res) => {
-    //   const data = await groupsCollection.find().toArray();
-    //   res.json(data);
-    // });
+    router.get("/groups", async (req, res) => {
+      const data = await groupsCollection.find().toArray();
+      res.json(data);
+    });
   })
   .catch((error) => console.error(error));
 
