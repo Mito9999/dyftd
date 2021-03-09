@@ -21,36 +21,25 @@ import { SERVER_URL } from "../../contants";
 
 const SettingsModal: React.FC = () => {
   const [page, setPage] = useState<number>(1);
+  const [group, setGroup] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const maxPages = 3;
 
-  // useEffect(() => {
-  //   (async () => {
-  //     if (page === 2) {
-  //       setIsLoading(true);
-  //       try {
-  //         const res = await fetch(`${SERVER_URL}/groups`);
-  //         const data = await res.json();
-  //       } catch {
-  //         setPage(1);
-  //       }
-  //       setIsLoading(false);
-  //     }
-  //   })();
-  // }, [page]);
-
   const submitCode = async () => {
     setIsLoading(true);
     try {
-      const res = await fetch(`${SERVER_URL}/groups`);
+      const res = await fetch(`${SERVER_URL}/group/${group}`);
+      if (!res.ok) {
+        throw new Error("Failed to find group code");
+      }
       const data = await res.json();
 
-      setError("Group code not found.");
-      throw new Error("Testing Group Code Error");
       setPage(2);
     } catch {
+      setError("Group code not found.");
+      setGroup("");
       setPage(1);
     }
     setIsLoading(false);
@@ -92,7 +81,11 @@ const SettingsModal: React.FC = () => {
                     Enter Group Code:
                   </FormLabel>
                   <HStack>
-                    <PinInput autoFocus>
+                    <PinInput
+                      value={group}
+                      onChange={(value) => setGroup(value)}
+                      autoFocus
+                    >
                       <PinInputField />
                       <PinInputField />
                       <PinInputField />

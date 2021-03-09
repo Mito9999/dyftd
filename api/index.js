@@ -27,8 +27,25 @@ app.post("/api", (req, res) => {
   res.json(switchValues);
 });
 
-app.get("/api/groups", (_, res) => {
-  setTimeout(() => res.json({ test: 123 }), 1000);
+const groups = [
+  {
+    number: 123456,
+  },
+  {
+    number: 234567,
+  },
+];
+
+app.get("/api/group/:groupId", (req, res) => {
+  const { groupId } = req.params;
+  setTimeout(() => {
+    const group = groups.find((g) => g.number === Number(groupId));
+    if (group) {
+      res.status(200).json({ group: group.number });
+    } else {
+      res.status(404).json({ group: null });
+    }
+  }, 1000);
 });
 
 module.exports = app.listen(PORT, () => {
