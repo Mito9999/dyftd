@@ -16,7 +16,7 @@ type Props = {
   closeButton: string;
   closeFn?: null | (() => any);
   actionButton?: string;
-  actionFn?: () => any;
+  actionFn?: null | (() => any);
 };
 
 const ModalTemplate: React.FC<Props> = (props) => {
@@ -41,7 +41,7 @@ const ModalTemplate: React.FC<Props> = (props) => {
               {props.closeButton}
             </Button>
             {props.actionButton && (
-              <Button variant="ghost" onClick={props.actionFn}>
+              <Button variant="ghost" onClick={props.actionFn || onClose}>
                 {props.actionButton}
               </Button>
             )}

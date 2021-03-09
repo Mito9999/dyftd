@@ -95,8 +95,8 @@ const SettingsModal: React.FC = () => {
               setPage((prev) => (prev <= 1 ? prev : prev - 1));
             }
       }
-      actionButton="Next"
-      actionFn={determineActionButtonFn}
+      actionButton={page >= maxPages ? "Close" : "Next"}
+      actionFn={page >= maxPages ? null : determineActionButtonFn}
     >
       <Flex minH="200px" justify="center" align="center">
         {page === 1 && (
@@ -132,7 +132,7 @@ const SettingsModal: React.FC = () => {
           </SlideFade>
         )}
         {page >= maxPages && (
-          <SlideFade in={true}>
+          <SlideFade in>
             <h2>Group has been found</h2>
           </SlideFade>
         )}
