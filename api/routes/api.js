@@ -37,8 +37,8 @@ MongoClient.connect(process.env.MONGO_URI, {
         .find({ number: Number(groupId) })
         .toArray();
 
-      if (group) {
-        res.status(200).json({ group: group.number });
+      if (group.length > 0) {
+        res.status(200).json({ group: group[0].number });
       } else {
         res.status(404).json({ group: null });
       }
