@@ -62,6 +62,21 @@ MongoClient.connect(process.env.MONGO_URI, {
       }
     });
 
+    router.get("/group/create/:groupId", async (req, res) => {
+      const { groupId } = req.params;
+
+      const group = await groupsCollection
+        .find({
+          number: Number(groupId),
+        })
+        .toArray();
+      if (group.length === 0) {
+        res.status(200).json({ message: "Group code is available!" });
+      } else {
+        res.status(409).json({ message: "Group code is taken." });
+      }
+    });
+
     router.post("/group/create/:groupId", async (req, res) => {
       const { groupId } = req.params;
       const { password } = req.body;

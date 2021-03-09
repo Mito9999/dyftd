@@ -31,19 +31,19 @@ const SettingsModal: React.FC = () => {
   const [group, setGroup] = useState<string>("");
   const [newGroup, setNewGroup] = useState<string>("");
 
-  const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [password, setPassword] = useState<string>("");
+  const [newPassword, setNewPassword] = useState<string>("");
 
   const submitCode = async () => {
     setIsLoading(true);
     try {
       const res = await fetch(`${SERVER_URL}/group/${group}`);
+      await res.json();
       if (!res.ok) {
         throw new Error("Failed to find group code");
       }
-      const data = await res.json();
 
-      console.log(data);
       setError("");
       setPage(2);
     } catch {
@@ -54,9 +54,23 @@ const SettingsModal: React.FC = () => {
     setIsLoading(false);
   };
 
-  // Will implement this in next commit
-  const createCode = () => {
-    console.log("creating code");
+  const createCode = async () => {
+    setIsLoading(true);
+    try {
+      const res = await fetch(`${SERVER_URL}/group/create/${newGroup}`);
+      await res.json();
+      if (!res.ok) {
+        throw new Error("Group code is taken");
+      }
+
+      setError("");
+      setPage(2);
+    } catch {
+      setError("Group code is taken.");
+      setNewGroup("");
+      setPage(1);
+    }
+    setIsLoading(false);
   };
 
   const submitPassword = async () => {
@@ -69,12 +83,11 @@ const SettingsModal: React.FC = () => {
         },
         body: JSON.stringify({ password }),
       });
+      await res.json();
       if (!res.ok) {
         throw new Error("Incorrect password");
       }
-      const data = await res.json();
 
-      console.log(data);
       setError("");
       setPage(3);
     } catch {
@@ -85,11 +98,36 @@ const SettingsModal: React.FC = () => {
     setIsLoading(false);
   };
 
+  const createPassword = async () => {
+    setIsLoading(true);
+    try {
+      const res = await fetch(`${SERVER_URL}/group/create/${newGroup}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ password: newPassword }),
+      });
+      await res.json();
+      if (!res.ok) {
+        throw new Error("Failed to create group");
+      }
+
+      setError("");
+      setPage(3);
+    } catch {
+      setError("Failed to create group.");
+      setNewPassword("");
+      setPage(2);
+    }
+    setIsLoading(false);
+  };
+
   const determineActionButtonFn = (() => {
     if (page === 1) {
       return firstPage === "join" ? submitCode : createCode;
     } else if (page === 2) {
-      return submitPassword;
+      return firstPage === "join" ? submitPassword : createPassword;
     } else {
       return () => setPage((prev) => (prev >= maxPages ? prev : prev + 1));
     }
@@ -196,13 +234,17 @@ const SettingsModal: React.FC = () => {
                 )}
                 <FormControl>
                   <FormLabel textAlign="center" mr="0px">
-                    Password:
+                    {firstPage === "create" ? "New" : "Group"} Password:
                   </FormLabel>
                   <InputGroup size="md">
                     <Input
                       pr="4.5rem"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      value={firstPage === "create" ? newPassword : password}
+                      onChange={({ target: { value } }) =>
+                        firstPage === "create"
+                          ? setNewPassword(value)
+                          : setPassword(value)
+                      }
                       type={showPassword ? "text" : "password"}
                       autoComplete="password"
                       placeholder="Enter password"
