@@ -1,0 +1,173 @@
+{
+  "info": {
+    "_postman_id": "36c08115-8f6f-44c6-9ec0-191f218037df",
+    "name": "dyftd",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Current Switch Values",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/",
+          "host": ["{{baseUrl}}"],
+          "path": [""]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Change Switch Values",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"Sunday\": {\r\n        \"morning\": true,\r\n        \"afternoon\": true\r\n    },\r\n    \"Monday\": {\r\n        \"morning\": true,\r\n        \"afternoon\": true\r\n    },\r\n    \"Tuesday\": {\r\n        \"morning\": true,\r\n        \"afternoon\": false\r\n    },\r\n    \"Wednesday\": {\r\n        \"morning\": false,\r\n        \"afternoon\": false\r\n    },\r\n    \"Thursday\": {\r\n        \"morning\": false,\r\n        \"afternoon\": true\r\n    },\r\n    \"Friday\": {\r\n        \"morning\": false,\r\n        \"afternoon\": false\r\n    },\r\n    \"Saturday\": {\r\n        \"morning\": true,\r\n        \"afternoon\": false\r\n    }\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/",
+          "host": ["{{baseUrl}}"],
+          "path": [""]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Check If Group Exists",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/group/:groupId",
+          "host": ["{{baseUrl}}"],
+          "path": ["group", ":groupId"],
+          "variable": [
+            {
+              "key": "groupId",
+              "value": "123456"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Check Group Password",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"password\": \"1234\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/group/:groupId",
+          "host": ["{{baseUrl}}"],
+          "path": ["group", ":groupId"],
+          "variable": [
+            {
+              "key": "groupId",
+              "value": "123456"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Check Group Code Availability",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/group/create/:groupId",
+          "host": ["{{baseUrl}}"],
+          "path": ["group", "create", ":groupId"],
+          "variable": [
+            {
+              "key": "groupId",
+              "value": "976823"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Group",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"password\": \"POSTMAN\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/group/create/:groupId",
+          "host": ["{{baseUrl}}"],
+          "path": ["group", "create", ":groupId"],
+          "variable": [
+            {
+              "key": "groupId",
+              "value": "976823"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "All Groups",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/groups",
+          "host": ["{{baseUrl}}"],
+          "path": ["groups"]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5001/api"
+    }
+  ]
+}

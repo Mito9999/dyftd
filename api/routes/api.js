@@ -100,7 +100,8 @@ MongoClient.connect(process.env.MONGO_URI, {
     // NOT FOR PRODUCTION
     router.get("/groups", async (req, res) => {
       const data = await groupsCollection.find().toArray();
-      res.json(data);
+      const groups = data.map((d) => ({ _id: d._id, number: d.number }));
+      res.json(groups);
     });
   })
   .catch((error) => console.error(error));
