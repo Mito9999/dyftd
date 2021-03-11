@@ -23,7 +23,7 @@ const EditModal: React.FC<Props> = ({
 }) => {
   const [newColumnText, setNewColumnText] = useState<string>("");
   const [removeColumnText, setRemoveColumnText] = useState<string>(
-    Object.keys(switchValues["Sunday"])[0]
+    Object.keys(switchValues[0].data)[0]
   );
 
   return (
@@ -35,10 +35,7 @@ const EditModal: React.FC<Props> = ({
           for (const value in values) {
             values[value] = { ...values[value], [newColumnText]: false };
           }
-          setSwitchValues((prev) => ({
-            ...prev,
-            ...values,
-          }));
+          setSwitchValues((prev) => [...prev, ...values]);
           setNewColumnText("");
         }}
       >
@@ -56,12 +53,11 @@ const EditModal: React.FC<Props> = ({
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          let values: SwitchValues = { ...switchValues };
-          for (const value in values) {
-            delete values[value][removeColumnText];
-          }
+          const newValues = switchValues.filter(
+            (value) => value.day !== removeColumnText
+          );
 
-          setSwitchValues(values);
+          setSwitchValues(newValues);
           setRemoveColumnText("");
         }}
       >

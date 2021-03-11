@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { DaysOfTheWeek, SwitchValues } from "../types";
+import { DaysOfTheWeek, SwitchValue, SwitchValues } from "../types";
 import { days } from "../contants";
 import { Table, Thead, Tr, Th, Tbody, Td, Switch } from "@chakra-ui/react";
 
@@ -17,28 +17,22 @@ const SwitchTable: React.FC<Props> = ({
   setSwitchValues,
 }) => {
   const handleSwitchChange = (day: DaysOfTheWeek, time: string) => {
-    setSwitchValues((prev) => ({
-      ...prev,
-      [day]: { ...prev[day], [time]: !prev[day][time] },
-    }));
-  };
-
-  const tableData = (day: DaysOfTheWeek) => {
-    const tableDataArray = [];
-    for (const time in switchValues["Sunday"]) {
-      tableDataArray.push(
-        <Td key={`${day} - ${time}`} maxWidth="100px">
-          <Switch
-            isDisabled={isLoading}
-            isChecked={switchValues[day][time]}
-            onChange={() => handleSwitchChange(day, time)}
-            size="lg"
-          />
-        </Td>
-      );
-    }
-
-    return tableDataArray;
+    const selectedSwitchIndex = switchValues.findIndex(
+      (val) => val.day === day
+    );
+    const previous = switchValues[selectedSwitchIndex];
+    const newValues: SwitchValue = {
+      ...previous,
+      data: {
+        ...previous.data,
+        [time]: !previous.data[time],
+      },
+    };
+    setSwitchValues([
+      ...switchValues.slice(0, selectedSwitchIndex),
+      newValues,
+      ...switchValues.slice(selectedSwitchIndex + 1),
+    ]);
   };
 
   const divRef = React.useRef<HTMLDivElement>(null);
@@ -76,10 +70,21 @@ const SwitchTable: React.FC<Props> = ({
           </Tr>
         </Thead>
         <Tbody>
-          {days.map((day) => (
+          {days.map((day, idx) => (
             <Tr key={day} height="70px">
               <Td>{day}</Td>
-              {tableData(day)}
+              {Object.entries(switchValues[idx].data).map(
+                (keysAndValues, idx) => (
+                  <Td key={`${day} - ${idx}`} maxWidth="100px">
+                    <Switch
+                      isDisabled={isLoading}
+                      isChecked={keysAndValues[1]}
+                      onChange={() => handleSwitchChange(day, keysAndValues[0])}
+                      size="lg"
+                    />
+                  </Td>
+                )
+              )}
             </Tr>
           ))}
         </Tbody>

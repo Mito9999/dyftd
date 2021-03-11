@@ -10,15 +10,57 @@ export const days: DaysOfTheWeek[] = [
   "Saturday",
 ];
 
-export const defaultSwitchValues: SwitchValues = {
-  Sunday: { morning: false, afternoon: false },
-  Monday: { morning: false, afternoon: false },
-  Tuesday: { morning: false, afternoon: false },
-  Wednesday: { morning: false, afternoon: false },
-  Thursday: { morning: false, afternoon: false },
-  Friday: { morning: false, afternoon: false },
-  Saturday: { morning: false, afternoon: false },
-};
+export const defaultSwitchValues: SwitchValues = [
+  {
+    day: "Sunday",
+    data: {
+      morning: true,
+      afternoon: false,
+    },
+  },
+  {
+    day: "Monday",
+    data: {
+      morning: false,
+      afternoon: false,
+    },
+  },
+  {
+    day: "Tuesday",
+    data: {
+      morning: false,
+      afternoon: false,
+    },
+  },
+  {
+    day: "Wednesday",
+    data: {
+      morning: false,
+      afternoon: false,
+    },
+  },
+  {
+    day: "Thursday",
+    data: {
+      morning: false,
+      afternoon: false,
+    },
+  },
+  {
+    day: "Friday",
+    data: {
+      morning: false,
+      afternoon: true,
+    },
+  },
+  {
+    day: "Saturday",
+    data: {
+      morning: false,
+      afternoon: false,
+    },
+  },
+];
 
 export const SERVER_URL =
   window.location.hostname === "localhost"

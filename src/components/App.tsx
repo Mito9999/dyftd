@@ -71,14 +71,8 @@ const App: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [switchValues]);
 
-  const tableHeaders = (() => {
-    const tableHeaderArray = [];
-    for (const time in switchValues["Sunday"]) {
-      tableHeaderArray.push(time);
-    }
-
-    return tableHeaderArray;
-  })();
+  const tableHeaders = Object.keys(switchValues[0].data);
+  console.log(tableHeaders);
 
   return (
     <Container maxW="750px" centerContent>

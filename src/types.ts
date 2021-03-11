@@ -7,8 +7,11 @@ export type DaysOfTheWeek =
   | "Friday"
   | "Saturday";
 
-export type SwitchValues = {
-  [key: string]: {
+export type SwitchValue = {
+  day: string;
+  data: {
     [key: string]: boolean;
   };
 };
+
+export type SwitchValues = SwitchValue[];
