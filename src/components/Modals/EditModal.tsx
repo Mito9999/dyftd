@@ -9,6 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { MdAdd, MdClose } from "react-icons/md";
 import ModalTemplate from "./ModalTemplate";
+import { defaultSwitchValues } from "../../contants";
 
 type Props = {
   switchValues: SwitchValues;
@@ -28,6 +29,15 @@ const EditModal: React.FC<Props> = ({
 
   return (
     <ModalTemplate title="Edit" closeButton="Close">
+      <Button
+        w="100%"
+        my="15px"
+        onClick={() => {
+          setSwitchValues(defaultSwitchValues);
+        }}
+      >
+        Reset Columns
+      </Button>
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -44,6 +54,7 @@ const EditModal: React.FC<Props> = ({
           <Input
             value={newColumnText}
             onChange={(e) => setNewColumnText(e.target.value)}
+            placeholder="Column Name"
           />
           <Button type="submit" colorScheme="green" mt={3} leftIcon={<MdAdd />}>
             Create
