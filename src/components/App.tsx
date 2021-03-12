@@ -72,7 +72,6 @@ const App: React.FC = () => {
   }, [switchValues]);
 
   const tableHeaders = Object.keys(switchValues[0].data);
-  console.log(tableHeaders);
 
   return (
     <Container maxW="750px" centerContent>

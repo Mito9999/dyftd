@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Flex, Progress } from "@chakra-ui/react";
+import { Box, Progress } from "@chakra-ui/react";
 
 type Props = {
   isLoading?: boolean;
@@ -22,11 +22,11 @@ const LoadingIndicator: React.FC<Props> = ({ isLoading = true }) => {
   }, []);
 
   return (
-    <Flex my="15px" minW="100%" h="4px" justify="center" align="center">
+    <Box w="100%" h="4px" my="15px">
       {isLoading && isDelayPassed && (
-        <Progress minW="100%" h="4px" isIndeterminate />
+        <Progress w="100%" h="4px" isIndeterminate />
       )}
-    </Flex>
+    </Box>
   );
 };
 

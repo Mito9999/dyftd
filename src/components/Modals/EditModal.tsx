@@ -31,11 +31,11 @@ const EditModal: React.FC<Props> = ({
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          let values: SwitchValues = { ...switchValues };
-          for (const value in values) {
-            values[value] = { ...values[value], [newColumnText]: false };
-          }
-          setSwitchValues((prev) => [...prev, ...values]);
+          let values = [...switchValues].map((value) => ({
+            ...value,
+            data: { ...value.data, [newColumnText]: false },
+          }));
+          setSwitchValues(values);
           setNewColumnText("");
         }}
       >
@@ -53,9 +53,11 @@ const EditModal: React.FC<Props> = ({
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          const newValues = switchValues.filter(
-            (value) => value.day !== removeColumnText
-          );
+
+          let newValues = [...switchValues];
+          newValues.forEach((_, index) => {
+            delete newValues[index].data[removeColumnText];
+          });
 
           setSwitchValues(newValues);
           setRemoveColumnText("");
@@ -68,7 +70,9 @@ const EditModal: React.FC<Props> = ({
             onChange={(e) => setRemoveColumnText(e.target.value)}
           >
             {tableHeaders.map((header) => (
-              <option key={`${header} column`}>{header}</option>
+              <option key={`${header} column`} value={header}>
+                {header}
+              </option>
             ))}
           </Select>
         </FormControl>
