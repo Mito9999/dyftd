@@ -14,7 +14,7 @@ export const defaultSwitchValues: SwitchValues = [
   {
     day: "Sunday",
     data: {
-      morning: true,
+      morning: false,
       afternoon: false,
     },
   },
@@ -50,7 +50,7 @@ export const defaultSwitchValues: SwitchValues = [
     day: "Friday",
     data: {
       morning: false,
-      afternoon: true,
+      afternoon: false,
     },
   },
   {
