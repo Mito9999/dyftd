@@ -1,10 +1,11 @@
 import React from "react";
 import {
   FormControl,
-  Flex,
+  Grid,
   FormLabel,
   Select,
   useColorMode,
+  Switch,
 } from "@chakra-ui/react";
 import ModalTemplate from "./ModalTemplate";
 
@@ -14,17 +15,18 @@ const SettingsModal: React.FC = () => {
   return (
     <ModalTemplate title="Settings" closeButton="Close">
       <FormControl>
-        <Flex justify="space-between" align="center">
+        <Grid templateColumns="1fr 1fr" alignItems="center" gap={4}>
           <FormLabel mb={0}>Theme: </FormLabel>
           <Select
             defaultValue={colorMode}
             onChange={(e) => setColorMode(e.target.value)}
-            w="50%"
           >
             <option value="light">Light</option>
             <option value="dark">Dark</option>
           </Select>
-        </Flex>
+          <FormLabel mb={0}>Auto Update: </FormLabel>
+          <Switch size="lg" />
+        </Grid>
       </FormControl>
     </ModalTemplate>
   );
