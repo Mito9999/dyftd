@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { SwitchValues } from "../types";
 import { defaultSwitchValues, SERVER_URL } from "../contants";
-import { Container, Heading, ButtonGroup, useToast } from "@chakra-ui/react";
+import { Container, Heading, useToast, Grid } from "@chakra-ui/react";
 import SettingsModal from "./Modals/SettingsModal";
 import GroupModal from "./Modals/GroupModal/index";
 import EditModal from "./Modals/EditModal";
@@ -84,13 +84,7 @@ const App: React.FC = () => {
         isLoading={isLoading}
         setSwitchValues={setSwitchValues}
       />
-      <ButtonGroup
-        d="flex"
-        justifyContent="space-between"
-        alignItems="center"
-        w="100%"
-        mt="40px"
-      >
+      <Grid my="40px" w="100%" templateColumns="repeat(3, 1fr)" gap={6}>
         <SettingsModal />
         <GroupModal />
         <EditModal
@@ -98,7 +92,7 @@ const App: React.FC = () => {
           setSwitchValues={setSwitchValues}
           tableHeaders={tableHeaders}
         />
-      </ButtonGroup>
+      </Grid>
     </Container>
   );
 };
