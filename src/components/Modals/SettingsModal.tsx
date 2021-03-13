@@ -9,7 +9,14 @@ import {
 } from "@chakra-ui/react";
 import ModalTemplate from "./ModalTemplate";
 
-const SettingsModal: React.FC = () => {
+type Props = {
+  shouldAutoUpdate: boolean;
+  setShouldAutoUpdate: React.Dispatch<React.SetStateAction<boolean>>;
+};
+const SettingsModal: React.FC<Props> = ({
+  shouldAutoUpdate,
+  setShouldAutoUpdate,
+}) => {
   const { colorMode, setColorMode } = useColorMode();
 
   return (
@@ -25,7 +32,13 @@ const SettingsModal: React.FC = () => {
             <option value="dark">Dark</option>
           </Select>
           <FormLabel mb={0}>Auto Update: </FormLabel>
-          <Switch size="lg" />
+          <Switch
+            size="lg"
+            isChecked={shouldAutoUpdate}
+            onChange={() => {
+              setShouldAutoUpdate(!shouldAutoUpdate);
+            }}
+          />
         </Grid>
       </FormControl>
     </ModalTemplate>

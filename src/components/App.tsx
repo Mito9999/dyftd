@@ -25,49 +25,67 @@ const App: React.FC = () => {
     defaultSwitchValues
   );
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [shouldAutoUpdate, setShouldAutoUpdate] = useState<boolean>(false);
+
+  const setValues = async () => {
+    setIsLoading(true);
+    const values = await getSwitchValues();
+    setSwitchValues(values);
+    setIsLoading(false);
+  };
 
   useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      const values = await getSwitchValues();
-      setSwitchValues(values);
-      setIsLoading(false);
-    })();
+    setValues();
   }, []);
 
   useEffect(() => {
-    try {
-      const postSwitchValues = async () => {
-        await fetch(SERVER_URL, {
+    const updateID = shouldAutoUpdate
+      ? setInterval(setValues, 60 * 1000)
+      : setInterval(() => {}, 10000000);
+
+    return () => {
+      clearInterval(updateID);
+    };
+  }, [shouldAutoUpdate]);
+
+  useEffect(() => {
+    const postSwitchValues = async () => {
+      try {
+        const res = await fetch(SERVER_URL, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(switchValues),
         });
-      };
-      if (!isLoading) {
-        postSwitchValues()
-          .then(() => {
-            toast({
+
+        res.ok
+          ? toast({
               title: "Switches Updated!",
               description: "Your changes have been saved successfully.",
               status: "success",
               duration: 3000,
               isClosable: true,
-            });
-          })
-          .catch(() => {
-            toast({
+            })
+          : toast({
               title: "Failed to Update Switches!",
               description: "Your changes have not been saved.",
-              status: "error",
+              status: "warning",
               duration: 3000,
               isClosable: true,
             });
-          });
+      } catch {
+        toast({
+          title: "Could Not Connect to Server!",
+          description: "There was an error connection to the server.",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
       }
-    } catch {}
+    };
+
+    postSwitchValues();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [switchValues]);
 
@@ -84,7 +102,10 @@ const App: React.FC = () => {
         setSwitchValues={setSwitchValues}
       />
       <Grid my="40px" w="100%" templateColumns="repeat(3, 1fr)" gap={6}>
-        <SettingsModal />
+        <SettingsModal
+          shouldAutoUpdate={shouldAutoUpdate}
+          setShouldAutoUpdate={setShouldAutoUpdate}
+        />
         <GroupModal />
         <EditModal
           switchValues={switchValues}
