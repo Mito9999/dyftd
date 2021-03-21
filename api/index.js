@@ -13,6 +13,5 @@ const PORT = 5001;
 app.use("/api", api);
 
 module.exports = app.listen(PORT, () => {
-  console.log(`Frontend: http://localhost:${PORT - 1}/`);
   console.log(`Backend: http://localhost:${PORT}/api`);
 });

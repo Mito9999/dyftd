@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { SwitchValues } from "../types";
-import { defaultSwitchValues, SERVER_URL } from "../contants";
+import { SwitchValues } from "../constants/types";
+import { defaultSwitchValues, SERVER_URL } from "../constants/constants";
 import { Container, Heading, useToast, Grid } from "@chakra-ui/react";
 import SettingsModal from "./Modals/SettingsModal";
 import GroupModal from "./Modals/GroupModal/index";
