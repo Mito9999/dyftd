@@ -37,7 +37,7 @@ let DEFAULT_VALUES = [
 
 // TODO: Implement proper passwords with bcryptjs
 MongoClient.connect(process.env.MONGO_URI, {
-  useUnifiedTopology: true,
+  useUnifiedTopology: false,
 })
   .then((client) => {
     console.log("Connected to MongoDB");
