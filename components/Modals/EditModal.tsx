@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { SwitchValues } from "../../constants/types";
+import { SwitchValues } from "@constants/types";
 import {
   Select,
   FormLabel,
@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { MdAdd, MdClose } from "react-icons/md";
 import ModalTemplate from "./ModalTemplate";
-import { defaultSwitchValues } from "../../constants/constants";
+import { defaultSwitchValues } from "@constants/constants";
 
 type Props = {
   switchValues: SwitchValues;

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import CreateReactAppEntryPoint from "../components/app";
+import CreateReactAppEntryPoint from "@components/App";
 
 function App() {
   const [isMounted, setIsMounted] = useState(false);

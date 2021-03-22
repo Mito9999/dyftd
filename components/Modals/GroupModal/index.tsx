@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Flex, SlideFade, Spinner } from "@chakra-ui/react";
 
 import ModalTemplate from "../ModalTemplate";
-import { SERVER_URL } from "../../../constants/constants";
+import { SERVER_URL } from "@constants/constants";
 import Page1 from "./Page1";
 import Page2 from "./Page2";
 

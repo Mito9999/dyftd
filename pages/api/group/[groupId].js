@@ -1,5 +1,5 @@
 import nc from "next-connect";
-import database from "../../../middleware/database";
+import database from "@middleware/database";
 
 const handler = nc();
 handler.use(database);

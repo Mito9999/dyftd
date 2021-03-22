@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { DaysOfTheWeek, SwitchValue, SwitchValues } from "../constants/types";
-import { days } from "../constants/constants";
+import { DaysOfTheWeek, SwitchValue, SwitchValues } from "@constants/types";
+import { days } from "@constants/constants";
 import { Table, Thead, Tr, Th, Tbody, Td, Switch } from "@chakra-ui/react";
 
 type Props = {

@@ -1,6 +1,6 @@
 import nc from "next-connect";
-import database from "../../middleware/database";
-import { defaultSwitchValues } from "../../constants/constants";
+import database from "@middleware/database";
+import { defaultSwitchValues } from "@constants/constants";
 
 const handler = nc();
 handler.use(database);
