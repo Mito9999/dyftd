@@ -24,6 +24,7 @@ const App: React.FC = () => {
   const [switchValues, setSwitchValues] = useState<SwitchValues>(
     defaultSwitchValues
   );
+  const [hasInitiallyLoaded, setHasInitiallyLoaded] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [shouldAutoUpdate, setShouldAutoUpdate] = useState<boolean>(false);
 
@@ -32,6 +33,8 @@ const App: React.FC = () => {
     const values = await getSwitchValues();
     setSwitchValues(values);
     setIsLoading(false);
+    // Avoids posting switch values on load
+    !hasInitiallyLoaded && setTimeout(() => setHasInitiallyLoaded(true), 100);
   };
 
   useEffect(() => {
@@ -41,7 +44,7 @@ const App: React.FC = () => {
   useEffect(() => {
     const updateID = shouldAutoUpdate
       ? setInterval(setValues, 60 * 1000)
-      : setInterval(() => {}, 10000000);
+      : setInterval(() => {}, 60 * 1000);
 
     return () => {
       clearInterval(updateID);
@@ -77,7 +80,7 @@ const App: React.FC = () => {
       } catch {
         toast({
           title: "Could Not Connect to Server!",
-          description: "There was an error connection to the server.",
+          description: "There was an error connecting to the server.",
           status: "error",
           duration: 3000,
           isClosable: true,
@@ -85,7 +88,7 @@ const App: React.FC = () => {
       }
     };
 
-    postSwitchValues();
+    hasInitiallyLoaded && postSwitchValues();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [switchValues]);
 
