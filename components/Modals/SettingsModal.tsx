@@ -1,11 +1,12 @@
 import React from "react";
 import {
   FormControl,
-  Grid,
+  Flex,
   FormLabel,
-  Select,
+  HStack,
   useColorMode,
   Switch,
+  Tooltip,
 } from "@chakra-ui/react";
 import ModalTemplate from "./ModalTemplate";
 
@@ -21,25 +22,37 @@ const SettingsModal: React.FC<Props> = ({
 
   return (
     <ModalTemplate title="Settings" closeButton="Close">
-      <FormControl>
-        <Grid templateColumns="1fr 1fr" alignItems="center" gap={4}>
-          <FormLabel mb={0}>Theme: </FormLabel>
-          <Select
-            defaultValue={colorMode}
-            onChange={(e) => setColorMode(e.target.value)}
-          >
-            <option value="light">Light</option>
-            <option value="dark">Dark</option>
-          </Select>
-          <FormLabel mb={0}>Auto Update: </FormLabel>
-          <Switch
-            size="lg"
-            isChecked={shouldAutoUpdate}
-            onChange={() => {
-              setShouldAutoUpdate(!shouldAutoUpdate);
-            }}
-          />
-        </Grid>
+      <FormControl margin="auto" width={["100%", "50%"]}>
+        <Flex direction="column">
+          <HStack my="15px" spacing="auto">
+            <FormLabel mb={0}>
+              <Tooltip hasArrow label="Darkens colors">
+                Dark Theme
+              </Tooltip>
+            </FormLabel>
+            <Switch
+              size="lg"
+              isChecked={colorMode === "dark"}
+              onChange={() =>
+                setColorMode(colorMode === "light" ? "dark" : "light")
+              }
+            />
+          </HStack>
+          <HStack my="15px" spacing="auto">
+            <FormLabel mb={0}>
+              <Tooltip hasArrow label="Checks for updated values every minute">
+                Auto Update
+              </Tooltip>
+            </FormLabel>
+            <Switch
+              size="lg"
+              isChecked={shouldAutoUpdate}
+              onChange={() => {
+                setShouldAutoUpdate(!shouldAutoUpdate);
+              }}
+            />
+          </HStack>
+        </Flex>
       </FormControl>
     </ModalTemplate>
   );
