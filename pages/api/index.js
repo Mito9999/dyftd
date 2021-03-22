@@ -8,6 +8,7 @@ handler.use(database);
 handler.get(async (req, res) => {
   try {
     const collection = await req.db.collection("users");
+
     const [updatedValues] = await collection
       .find({ email: "bob123@example.com" })
       .toArray();
@@ -27,7 +28,7 @@ handler.post(async (req, res) => {
       { email: "bob123@example.com" },
       { $set: { personalGroupValues: newValues } }
     );
-    res.json(newValues);
+    res.status(200).json(newValues);
   } catch {
     res.status(500).json(defaultSwitchValues);
   }

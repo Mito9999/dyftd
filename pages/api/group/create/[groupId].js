@@ -39,7 +39,7 @@ handler.post(async (req, res) => {
     });
     res.status(200).json({ message: "Group Created!" });
   } else {
-    res.status(500).json({ message: "Failed to create group." });
+    res.status(403).json({ message: "Failed to create group." });
   }
 });
 

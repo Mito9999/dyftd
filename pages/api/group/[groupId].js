@@ -17,7 +17,7 @@ handler.get(async (req, res) => {
       res.status(404).json({ group: null });
     }
   } catch {
-    res.status(500).json({ message: "Server Error" });
+    res.status(500).json({ group: null });
   }
 });
 
@@ -40,7 +40,7 @@ handler.post(async (req, res) => {
       res.status(404).json({ group: null });
     }
   } catch {
-    res.status(500).json({ message: "Server Error" });
+    res.status(500).json({ group: null });
   }
 });
 
