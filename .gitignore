@@ -27,4 +27,4 @@ yarn-error.log*
 
 /src/react-app-env.d.ts
 .next
-next-env.d.ts
+*.d.ts
