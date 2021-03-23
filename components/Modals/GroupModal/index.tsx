@@ -21,8 +21,8 @@ const SettingsModal: React.FC = () => {
   const [newPassword, setNewPassword] = useState<string>("");
 
   const groupURL = `${SERVER_URL}/group/${
-    firstPage === "join" ? group : `create/${newGroup}`
-  }`; // either /group/GROUP or /group/create/NEW_GROUP
+    firstPage === "join" ? `check/${group}` : `create/${newGroup}`
+  }`;
 
   const submitCode = async () => {
     setIsLoading(true);

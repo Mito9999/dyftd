@@ -7,6 +7,7 @@ let cachedDb = null;
 const connectToDatabase = async (req, _, next) => {
   if (cachedDb) {
     req.db = cachedDb;
+    console.log("🔄 Using Cached DB Connection");
     return next();
   }
 
@@ -19,6 +20,7 @@ const connectToDatabase = async (req, _, next) => {
   cachedDb = db;
   req.db = db;
 
+  console.log("🔥 Reconnected to DB");
   next();
 };
 

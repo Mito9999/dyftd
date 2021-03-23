@@ -1,21 +1,110 @@
 import React, { useState, useEffect } from "react";
 import { DaysOfTheWeek, SwitchValue, SwitchValues } from "@constants/types";
 import { days } from "@constants/constants";
-import { Table, Thead, Tr, Th, Tbody, Td, Switch } from "@chakra-ui/react";
+import { defaultSwitchValues, SERVER_URL } from "@constants/constants";
+import {
+  Table,
+  Thead,
+  Tr,
+  Th,
+  Tbody,
+  Td,
+  Switch,
+  useToast,
+} from "@chakra-ui/react";
+import LoadingIndicator from "./LoadingIndicator";
 
+// group is a string with 6 digits, eg. 0038015
 type Props = {
-  tableHeaders: string[];
-  switchValues: SwitchValues;
-  isLoading: boolean;
-  setSwitchValues: React.Dispatch<React.SetStateAction<SwitchValues>>;
+  group: string;
 };
 
-const SwitchTable: React.FC<Props> = ({
-  tableHeaders,
-  switchValues,
-  isLoading,
-  setSwitchValues,
-}) => {
+const SwitchTable: React.FC<Props> = ({ group }) => {
+  const toast = useToast();
+
+  const [switchValues, setSwitchValues] = useState<SwitchValues>(
+    defaultSwitchValues
+  );
+  const [hasInitiallyLoaded, setHasInitiallyLoaded] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [shouldAutoUpdate, setShouldAutoUpdate] = useState<boolean>(false);
+
+  const getSwitchValues = async () => {
+    try {
+      const res = await fetch(`${SERVER_URL}/group/${group}`);
+      const data: SwitchValues = await res.json();
+      return data;
+    } catch {
+      return defaultSwitchValues;
+    }
+  };
+
+  const setValues = async () => {
+    setIsLoading(true);
+    const values = await getSwitchValues();
+    setSwitchValues(values);
+    setIsLoading(false);
+    // Avoids posting switch values on load
+    !hasInitiallyLoaded && setTimeout(() => setHasInitiallyLoaded(true), 100);
+  };
+
+  useEffect(() => {
+    setValues();
+  }, []);
+
+  useEffect(() => {
+    const updateID = shouldAutoUpdate
+      ? setInterval(setValues, 60 * 1000)
+      : setInterval(() => {}, 60 * 1000);
+
+    return () => {
+      clearInterval(updateID);
+    };
+  }, [shouldAutoUpdate]);
+
+  useEffect(() => {
+    const postSwitchValues = async () => {
+      try {
+        const res = await fetch(`${SERVER_URL}/group/${group}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(switchValues),
+        });
+
+        res.ok
+          ? toast({
+              title: "Switches Updated!",
+              description: "Your changes have been saved successfully.",
+              status: "success",
+              duration: 3000,
+              isClosable: true,
+            })
+          : toast({
+              title: "Failed to Update Switches!",
+              description: "Your changes have not been saved.",
+              status: "warning",
+              duration: 3000,
+              isClosable: true,
+            });
+      } catch {
+        toast({
+          title: "Could Not Connect to Server!",
+          description: "There was an error connecting to the server.",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+      }
+    };
+
+    hasInitiallyLoaded && postSwitchValues();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [switchValues]);
+
+  const tableHeaders = Object.keys(switchValues[0].data);
+
   const handleSwitchChange = (day: DaysOfTheWeek, time: string) => {
     const selectedSwitchIndex = switchValues.findIndex(
       (val) => val.day === day
@@ -58,6 +147,7 @@ const SwitchTable: React.FC<Props> = ({
       ref={divRef}
       style={{ width: "100%", overflowX: isScrollable ? "scroll" : "hidden" }}
     >
+      <LoadingIndicator isLoading={isLoading} />
       <Table variant="simple">
         <Thead>
           <Tr>
