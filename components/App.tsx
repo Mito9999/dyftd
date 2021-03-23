@@ -95,7 +95,7 @@ const App: React.FC = () => {
   const tableHeaders = Object.keys(switchValues[0].data);
 
   return (
-    <Container maxW="750px" centerContent>
+    <Container maxW="750px" centerContent margin="auto">
       <Heading mt="40px">Did You Feed the Dog?</Heading>
       <LoadingIndicator isLoading={isLoading} />
       <SwitchTable

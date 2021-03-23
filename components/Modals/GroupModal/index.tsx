@@ -108,6 +108,7 @@ const SettingsModal: React.FC = () => {
                 error={error}
                 firstPage={firstPage}
                 setFirstPage={setFirstPage}
+                submitCode={submitCode}
                 groups={{ group, setGroup, newGroup, setNewGroup }}
               />
             )}
@@ -121,6 +122,7 @@ const SettingsModal: React.FC = () => {
               <Page2
                 error={error}
                 firstPage={firstPage}
+                submitPassword={submitPassword}
                 passwords={{
                   password,
                   setPassword,

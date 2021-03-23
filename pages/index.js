@@ -17,7 +17,7 @@ export default function App() {
           content="Easy to use collaborative toggles suitable to any purpose"
         />
         <meta property="og:type" content="app" />
-        <meta property="og:title" content="DYFTD" />
+        <meta property="og:title" content="DYFTD - Did you feed the dog?" />
         <meta name="twitter:title" content="DYFTD" />
         <meta
           property="og:description"

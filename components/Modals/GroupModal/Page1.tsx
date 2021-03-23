@@ -15,6 +15,7 @@ type Props = {
   error: string;
   firstPage: "join" | "create";
   setFirstPage: React.Dispatch<React.SetStateAction<"join" | "create">>;
+  submitCode: () => void;
   groups: {
     group: string;
     setGroup: React.Dispatch<React.SetStateAction<string>>;
@@ -27,13 +28,20 @@ const Page1: React.FC<Props> = ({
   error,
   firstPage,
   setFirstPage,
+  submitCode,
   groups: { group, setGroup, newGroup, setNewGroup },
 }) => {
   const notFirstPage = firstPage === "join" ? "create" : "join";
 
   return (
     <>
-      <form style={{ marginTop: "40px" }}>
+      <form
+        style={{ marginTop: "40px" }}
+        onSubmit={(e) => {
+          e.preventDefault();
+          submitCode();
+        }}
+      >
         {error.length > 0 && (
           <Alert status="error" mb="15px">
             <AlertIcon />
@@ -50,6 +58,7 @@ const Page1: React.FC<Props> = ({
                 <PinInput
                   value={group}
                   onChange={(value) => setGroup(value)}
+                  onComplete={submitCode}
                   autoFocus
                 >
                   <PinInputField />

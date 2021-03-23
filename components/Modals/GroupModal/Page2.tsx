@@ -13,6 +13,7 @@ import {
 type Props = {
   error: string;
   firstPage: "join" | "create";
+  submitPassword: () => void;
   passwords: {
     password: string;
     setPassword: React.Dispatch<React.SetStateAction<string>>;
@@ -24,12 +25,18 @@ type Props = {
 const Page2: React.FC<Props> = ({
   error,
   firstPage,
+  submitPassword,
   passwords: { password, setPassword, newPassword, setNewPassword },
 }) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   return (
-    <form>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        submitPassword();
+      }}
+    >
       {error.length > 0 && (
         <Alert status="error" mb="15px">
           <AlertIcon />
@@ -52,6 +59,7 @@ const Page2: React.FC<Props> = ({
             type={showPassword ? "text" : "password"}
             autoComplete="password"
             placeholder="Enter password"
+            autoFocus
           />
           <InputRightElement width="4.5rem">
             <Button
