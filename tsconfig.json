@@ -33,7 +33,10 @@
     }
   },
   "include": [
-    "components"
+    "components",
+    "constants",
+    "middleware",
+    "pages"
   ],
   "exclude": [
     "node_modules"

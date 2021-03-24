@@ -1,11 +1,11 @@
 import nc from "next-connect";
-import database from "@middleware/database";
+import database, { NextReq, NextRes } from "@middleware/database";
 import { defaultSwitchValues } from "@constants/constants";
 
 const handler = nc();
 handler.use(database);
 
-handler.get(async (req, res) => {
+handler.get(async (req: NextReq, res: NextRes) => {
   const { groupId } = req.query;
   const collection = await req.db.collection("groups");
 
@@ -21,9 +21,9 @@ handler.get(async (req, res) => {
   }
 });
 
-handler.post(async (req, res) => {
+handler.post(async (req: NextReq, res: NextRes) => {
   const { groupId } = req.query;
-  const { password } = req.body;
+  const { password }: { password: string } = req.body;
   const collection = await req.db.collection("groups");
 
   const group = await collection

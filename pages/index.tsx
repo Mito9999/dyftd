@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import AppComponent from "@components/App";
 
 export default function App() {
-  const [isMounted, setIsMounted] = useState(false);
+  const [isMounted, setIsMounted] = useState<boolean>(false);
   useEffect(() => {
     setIsMounted(true);
   }, []);
