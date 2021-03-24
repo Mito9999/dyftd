@@ -11,12 +11,19 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/",
+					"raw": "{{baseUrl}}/group/:groupId",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
-						""
+						"group",
+						":groupId"
+					],
+					"variable": [
+						{
+							"key": "groupId",
+							"value": "000000"
+						}
 					]
 				}
 			},
@@ -29,30 +36,13 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"Sunday\": {\r\n        \"morning\": true,\r\n        \"afternoon\": true\r\n    },\r\n    \"Monday\": {\r\n        \"morning\": true,\r\n        \"afternoon\": true\r\n    },\r\n    \"Tuesday\": {\r\n        \"morning\": true,\r\n        \"afternoon\": false\r\n    },\r\n    \"Wednesday\": {\r\n        \"morning\": false,\r\n        \"afternoon\": false\r\n    },\r\n    \"Thursday\": {\r\n        \"morning\": false,\r\n        \"afternoon\": true\r\n    },\r\n    \"Friday\": {\r\n        \"morning\": false,\r\n        \"afternoon\": false\r\n    },\r\n    \"Saturday\": {\r\n        \"morning\": true,\r\n        \"afternoon\": false\r\n    }\r\n}",
+					"raw": "[\r\n    {\r\n        \"day\": \"Sunday\",\r\n        \"data\": {\r\n            \"morning\": true,\r\n            \"afternoon\": false\r\n        }\r\n    },\r\n    {\r\n        \"day\": \"Monday\",\r\n        \"data\": {\r\n            \"morning\": false,\r\n            \"afternoon\": false\r\n        }\r\n    },\r\n    {\r\n        \"day\": \"Tuesday\",\r\n        \"data\": {\r\n            \"morning\": false,\r\n            \"afternoon\": false\r\n        }\r\n    },\r\n    {\r\n        \"day\": \"Wednesday\",\r\n        \"data\": {\r\n            \"morning\": false,\r\n            \"afternoon\": true\r\n        }\r\n    },\r\n    {\r\n        \"day\": \"Thursday\",\r\n        \"data\": {\r\n            \"morning\": false,\r\n            \"afternoon\": true\r\n        }\r\n    },\r\n    {\r\n        \"day\": \"Friday\",\r\n        \"data\": {\r\n            \"morning\": false,\r\n            \"afternoon\": false\r\n        }\r\n    },\r\n    {\r\n        \"day\": \"Saturday\",\r\n        \"data\": {\r\n            \"morning\": true,\r\n            \"afternoon\": false\r\n        }\r\n    }\r\n]",
 					"options": {
 						"raw": {
 							"language": "json"
 						}
 					}
 				},
-				"url": {
-					"raw": "{{baseUrl}}/",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						""
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Check If Group Exists",
-			"request": {
-				"method": "GET",
-				"header": [],
 				"url": {
 					"raw": "{{baseUrl}}/group/:groupId",
 					"host": [
@@ -65,7 +55,32 @@
 					"variable": [
 						{
 							"key": "groupId",
-							"value": "0"
+							"value": "000000"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check If Group Exists",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/group/check/:groupId",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"group",
+						"check",
+						":groupId"
+					],
+					"variable": [
+						{
+							"key": "groupId",
+							"value": "000000"
 						}
 					]
 				}
@@ -87,18 +102,20 @@
 					}
 				},
 				"url": {
-					"raw": "{{baseUrl}}/group/:groupId",
+					"raw": "{{baseUrl}}/group/check/:groupId",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"group",
+						"check",
 						":groupId"
 					],
 					"variable": [
 						{
 							"key": "groupId",
-							"value": "0"
+							"value": "000000",
+							"description": "Note: this will require password in the future"
 						}
 					]
 				}
@@ -123,7 +140,7 @@
 					"variable": [
 						{
 							"key": "groupId",
-							"value": "454354"
+							"value": "000000"
 						}
 					]
 				}
@@ -137,7 +154,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"password\": \"TEST\"\r\n}",
+					"raw": "{\r\n    \"password\": \"Password123\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -157,7 +174,7 @@
 					"variable": [
 						{
 							"key": "groupId",
-							"value": "0"
+							"value": "192837"
 						}
 					]
 				}
