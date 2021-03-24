@@ -145,42 +145,46 @@ const SwitchTable: React.FC<Props> = ({ group }) => {
   }, [isLoading]);
 
   return (
-    <div
-      ref={divRef}
-      style={{ width: "100%", overflowX: isScrollable ? "scroll" : "hidden" }}
-    >
-      <LoadingIndicator isLoading={isLoading} />
-      <Table variant="simple">
-        <Thead>
-          <Tr>
-            <Th></Th>
-            {tableHeaders.map((header) => (
-              <Th key={header} maxWidth="100px">
-                {header}
-              </Th>
-            ))}
-          </Tr>
-        </Thead>
-        <Tbody>
-          {days.map((day, idx) => (
-            <Tr key={day} height="70px">
-              <Td>{day}</Td>
-              {Object.entries(switchValues[idx].data).map(
-                (keysAndValues, idx) => (
-                  <Td key={`${day} - ${idx}`} maxWidth="100px">
-                    <Switch
-                      isDisabled={isLoading}
-                      isChecked={keysAndValues[1]}
-                      onChange={() => handleSwitchChange(day, keysAndValues[0])}
-                      size="lg"
-                    />
-                  </Td>
-                )
-              )}
+    <>
+      <div
+        ref={divRef}
+        style={{ width: "100%", overflowX: isScrollable ? "scroll" : "hidden" }}
+      >
+        <LoadingIndicator isLoading={isLoading} />
+        <Table variant="simple">
+          <Thead>
+            <Tr>
+              <Th>{group}</Th>
+              {tableHeaders.map((header) => (
+                <Th key={header} maxWidth="100px">
+                  {header}
+                </Th>
+              ))}
             </Tr>
-          ))}
-        </Tbody>
-      </Table>
+          </Thead>
+          <Tbody>
+            {days.map((day, idx) => (
+              <Tr key={day} height="70px">
+                <Td>{day}</Td>
+                {Object.entries(switchValues[idx].data).map(
+                  (keysAndValues, idx) => (
+                    <Td key={`${day} - ${idx}`} maxWidth="100px">
+                      <Switch
+                        isDisabled={isLoading}
+                        isChecked={keysAndValues[1]}
+                        onChange={() =>
+                          handleSwitchChange(day, keysAndValues[0])
+                        }
+                        size="lg"
+                      />
+                    </Td>
+                  )
+                )}
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+      </div>
       <Grid my="40px" w="100%" templateColumns="repeat(3, 1fr)" gap={6}>
         <SettingsModal
           shouldAutoUpdate={shouldAutoUpdate}
@@ -193,7 +197,7 @@ const SwitchTable: React.FC<Props> = ({ group }) => {
           tableHeaders={tableHeaders}
         />
       </Grid>
-    </div>
+    </>
   );
 };
 

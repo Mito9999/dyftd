@@ -2,18 +2,12 @@ import React from "react";
 import {
   Container,
   Heading,
-  useToast,
-  Grid,
   Tabs,
   TabList,
   TabPanels,
   Tab,
   TabPanel,
 } from "@chakra-ui/react";
-import SettingsModal from "./Modals/SettingsModal";
-import GroupModal from "./Modals/GroupModal/index";
-import EditModal from "./Modals/EditModal";
-import LoadingIndicator from "./LoadingIndicator";
 import SwitchTable from "./SwitchTable";
 
 const groupList = [
@@ -45,7 +39,6 @@ const App: React.FC = () => {
         <TabPanels>
           {groupList.map((g) => (
             <TabPanel key={g.code}>
-              <p>Group: {g.code}</p>
               <SwitchTable group={g.code} />
             </TabPanel>
           ))}
