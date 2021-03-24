@@ -7,7 +7,7 @@ handler.use(database);
 handler.get(async (req: NextReq, res: NextRes) => {
   try {
     const { groupId } = req.query;
-    const collection = await req.db.collection("groups");
+    const collection = req.db.collection("groups");
 
     const group = await collection.find({ number: Number(groupId) }).toArray();
 
@@ -24,13 +24,13 @@ handler.get(async (req: NextReq, res: NextRes) => {
 handler.post(async (req: NextReq, res: NextRes) => {
   try {
     const { groupId } = req.query;
-    // const { password } = req.body;
-    const collection = await req.db.collection("groups");
+    const { password } = req.body;
+    const collection = req.db.collection("groups");
 
     const group = await collection
       .find({
         number: Number(groupId),
-        // password,
+        password,
       })
       .toArray();
 
