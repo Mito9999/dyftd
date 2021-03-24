@@ -80,6 +80,7 @@ const Page1: React.FC<Props> = ({
                 <PinInput
                   value={newGroup}
                   onChange={(value) => setNewGroup(value)}
+                  onComplete={submitCode}
                   autoFocus
                 >
                   <PinInputField />

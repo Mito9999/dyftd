@@ -7,6 +7,7 @@ import {
   useColorMode,
   Switch,
   Tooltip,
+  Heading,
 } from "@chakra-ui/react";
 import ModalTemplate from "./ModalTemplate";
 
@@ -24,6 +25,9 @@ const SettingsModal: React.FC<Props> = ({
     <ModalTemplate title="Settings" closeButton="Close">
       <FormControl margin="auto" width={["100%", "50%"]}>
         <Flex direction="column">
+          <Heading size="md" textAlign="center" mt="20px" mb="4px">
+            General
+          </Heading>
           <HStack my="15px" spacing="auto">
             <FormLabel mb={0}>
               <Tooltip hasArrow label="Darkens colors">
@@ -38,6 +42,9 @@ const SettingsModal: React.FC<Props> = ({
               }
             />
           </HStack>
+          <Heading size="md" textAlign="center" mt="20px" mb="4px">
+            Per Page
+          </Heading>
           <HStack my="15px" spacing="auto">
             <FormLabel mb={0}>
               <Tooltip hasArrow label="Checks for updated values every minute">

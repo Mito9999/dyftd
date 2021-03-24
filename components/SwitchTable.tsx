@@ -11,8 +11,10 @@ import {
   Td,
   Switch,
   useToast,
+  Grid,
 } from "@chakra-ui/react";
 import LoadingIndicator from "./LoadingIndicator";
+import { SettingsModal, GroupModal, EditModal } from "./Modals";
 
 // group is a string with 6 digits, eg. 0038015
 type Props = {
@@ -179,6 +181,18 @@ const SwitchTable: React.FC<Props> = ({ group }) => {
           ))}
         </Tbody>
       </Table>
+      <Grid my="40px" w="100%" templateColumns="repeat(3, 1fr)" gap={6}>
+        <SettingsModal
+          shouldAutoUpdate={shouldAutoUpdate}
+          setShouldAutoUpdate={setShouldAutoUpdate}
+        />
+        <GroupModal />
+        <EditModal
+          switchValues={switchValues}
+          setSwitchValues={setSwitchValues}
+          tableHeaders={tableHeaders}
+        />
+      </Grid>
     </div>
   );
 };

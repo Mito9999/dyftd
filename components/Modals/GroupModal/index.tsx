@@ -6,7 +6,7 @@ import { SERVER_URL } from "@constants/constants";
 import Page1 from "./Page1";
 import Page2 from "./Page2";
 
-const SettingsModal: React.FC = () => {
+const GroupModal: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
 
@@ -143,4 +143,4 @@ const SettingsModal: React.FC = () => {
   );
 };
 
-export default SettingsModal;
+export default GroupModal;

@@ -2,18 +2,18 @@ import React from "react";
 import {
   Container,
   Heading,
-  // useToast,
-  // Grid,
+  useToast,
+  Grid,
   Tabs,
   TabList,
   TabPanels,
   Tab,
   TabPanel,
 } from "@chakra-ui/react";
-// import SettingsModal from "./Modals/SettingsModal";
-// import GroupModal from "./Modals/GroupModal/index";
-// import EditModal from "./Modals/EditModal";
-// import LoadingIndicator from "./LoadingIndicator";
+import SettingsModal from "./Modals/SettingsModal";
+import GroupModal from "./Modals/GroupModal/index";
+import EditModal from "./Modals/EditModal";
+import LoadingIndicator from "./LoadingIndicator";
 import SwitchTable from "./SwitchTable";
 
 const groupList = [
@@ -34,7 +34,7 @@ const groupList = [
 const App: React.FC = () => {
   return (
     <Container maxW="750px" centerContent margin="auto">
-      <Heading mt="40px">Did You Feed the Dog?</Heading>
+      <Heading my="40px">Did You Feed the Dog?</Heading>
       <Tabs w="100%" isFitted>
         <TabList>
           {groupList.map((g) => (
@@ -51,18 +51,6 @@ const App: React.FC = () => {
           ))}
         </TabPanels>
       </Tabs>
-      {/* <Grid my="40px" w="100%" templateColumns="repeat(3, 1fr)" gap={6}>
-        <SettingsModal
-          shouldAutoUpdate={shouldAutoUpdate}
-          setShouldAutoUpdate={setShouldAutoUpdate}
-        />
-        <GroupModal />
-        <EditModal
-          switchValues={switchValues}
-          setSwitchValues={setSwitchValues}
-          tableHeaders={tableHeaders}
-        />
-      </Grid> */}
     </Container>
   );
 };
