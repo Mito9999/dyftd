@@ -15,7 +15,7 @@ type Props = {
   error: string;
   firstPage: "join" | "create";
   setFirstPage: React.Dispatch<React.SetStateAction<"join" | "create">>;
-  submitCode: () => void;
+  submitCode: (code?: string) => void;
   groups: {
     group: string;
     setGroup: React.Dispatch<React.SetStateAction<string>>;
@@ -58,7 +58,9 @@ const Page1: React.FC<Props> = ({
                 <PinInput
                   value={group}
                   onChange={(value) => setGroup(value)}
-                  onComplete={submitCode}
+                  // onComplete={(value) =>
+                  //   setTimeout(() => submitCode(value), 100)
+                  // }
                   autoFocus
                 >
                   <PinInputField />
@@ -80,7 +82,7 @@ const Page1: React.FC<Props> = ({
                 <PinInput
                   value={newGroup}
                   onChange={(value) => setNewGroup(value)}
-                  onComplete={submitCode}
+                  // onComplete={submitCode}
                   autoFocus
                 >
                   <PinInputField />

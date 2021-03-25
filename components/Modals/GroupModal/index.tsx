@@ -6,7 +6,11 @@ import { SERVER_URL } from "@constants/constants";
 import Page1 from "./Page1";
 import Page2 from "./Page2";
 
-const GroupModal: React.FC = () => {
+import { groupItem } from "@components/App";
+type Props = {
+  setGroupList: React.Dispatch<React.SetStateAction<groupItem[]>>;
+};
+const GroupModal: React.FC<Props> = ({ setGroupList }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
 
@@ -57,10 +61,13 @@ const GroupModal: React.FC = () => {
           password: firstPage === "join" ? password : newPassword,
         }),
       });
-      await res.json();
+      const data = await res.json();
       if (!res.ok) {
         throw new Error("Incorrect password");
       }
+
+      firstPage === "join" &&
+        setGroupList((prev) => [...prev, { title: "Title", code: data.group }]);
 
       setError("");
       setPage(3);
@@ -133,9 +140,14 @@ const GroupModal: React.FC = () => {
             )}
           </SlideFade>
         )}
-        {page >= maxPages && (
+        {page >= maxPages && firstPage === "join" && (
           <SlideFade in>
-            <h2>Group has been found</h2>
+            <h2>Group has been added</h2>
+          </SlideFade>
+        )}
+        {page >= maxPages && firstPage === "create" && (
+          <SlideFade in>
+            <h2>Group has been created</h2>
           </SlideFade>
         )}
       </Flex>

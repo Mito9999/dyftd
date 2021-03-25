@@ -1,4 +1,5 @@
-require("dotenv").config();
+import dotenv from "dotenv";
+dotenv.config();
 import type { NextApiRequest, NextApiResponse } from "next";
 import { MongoClient, Db } from "mongodb";
 import nextConnect from "next-connect";

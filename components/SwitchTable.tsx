@@ -15,13 +15,16 @@ import {
 } from "@chakra-ui/react";
 import LoadingIndicator from "./LoadingIndicator";
 import { SettingsModal, GroupModal, EditModal } from "./Modals";
+import { groupItem } from "./App";
 
 // group is a string with 6 digits, eg. 0038015
 type Props = {
   group: string;
+  setTabIndex: React.Dispatch<React.SetStateAction<number>>;
+  setGroupList: React.Dispatch<React.SetStateAction<groupItem[]>>;
 };
 
-const SwitchTable: React.FC<Props> = ({ group }) => {
+const SwitchTable: React.FC<Props> = ({ group, setTabIndex, setGroupList }) => {
   const toast = useToast();
 
   const [switchValues, setSwitchValues] = useState<SwitchValues>(
@@ -190,11 +193,14 @@ const SwitchTable: React.FC<Props> = ({ group }) => {
           shouldAutoUpdate={shouldAutoUpdate}
           setShouldAutoUpdate={setShouldAutoUpdate}
         />
-        <GroupModal />
+        <GroupModal setGroupList={setGroupList} />
         <EditModal
           switchValues={switchValues}
           setSwitchValues={setSwitchValues}
           tableHeaders={tableHeaders}
+          group={group}
+          setTabIndex={setTabIndex}
+          setGroupList={setGroupList}
         />
       </Grid>
     </>

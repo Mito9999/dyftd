@@ -10,17 +10,24 @@ import {
 import { MdAdd, MdClose } from "react-icons/md";
 import ModalTemplate from "./ModalTemplate";
 import { defaultSwitchValues } from "@constants/constants";
+import { groupItem } from "../App";
 
 type Props = {
   switchValues: SwitchValues;
   setSwitchValues: React.Dispatch<React.SetStateAction<SwitchValues>>;
   tableHeaders: string[];
+  group: string;
+  setTabIndex: React.Dispatch<React.SetStateAction<number>>;
+  setGroupList: React.Dispatch<React.SetStateAction<groupItem[]>>;
 };
 
 const EditModal: React.FC<Props> = ({
   switchValues,
   setSwitchValues,
   tableHeaders,
+  group,
+  setTabIndex,
+  setGroupList,
 }) => {
   const [newColumnText, setNewColumnText] = useState<string>("");
   const [removeColumnText, setRemoveColumnText] = useState<string>(
@@ -31,12 +38,25 @@ const EditModal: React.FC<Props> = ({
     <ModalTemplate title="Edit" closeButton="Close">
       <Button
         w="100%"
-        my="15px"
         onClick={() => {
           setSwitchValues(defaultSwitchValues);
         }}
       >
         Reset Columns
+      </Button>
+      <Button
+        w="100%"
+        my="15px"
+        onClick={() => {
+          setGroupList((prev) =>
+            prev.length > 1
+              ? prev.filter((groupObj) => groupObj.code !== group)
+              : prev
+          );
+          setTabIndex(0);
+        }}
+      >
+        Leave Group
       </Button>
       <form
         onSubmit={(e) => {
