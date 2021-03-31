@@ -50,6 +50,7 @@ const App: React.FC = () => {
               <SwitchTable
                 group={g.code}
                 setGroupList={setGroupList}
+                tabIndex={tabIndex}
                 setTabIndex={setTabIndex}
               />
             </TabPanel>

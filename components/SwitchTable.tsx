@@ -12,6 +12,7 @@ import {
   Switch,
   useToast,
   Grid,
+  SlideFade,
 } from "@chakra-ui/react";
 import LoadingIndicator from "./LoadingIndicator";
 import { SettingsModal, GroupModal, EditModal } from "./Modals";
@@ -21,10 +22,16 @@ import { groupItem } from "./App";
 type Props = {
   group: string;
   setTabIndex: React.Dispatch<React.SetStateAction<number>>;
+  tabIndex: number;
   setGroupList: React.Dispatch<React.SetStateAction<groupItem[]>>;
 };
 
-const SwitchTable: React.FC<Props> = ({ group, setTabIndex, setGroupList }) => {
+const SwitchTable: React.FC<Props> = ({
+  group,
+  setTabIndex,
+  tabIndex,
+  setGroupList,
+}) => {
   const toast = useToast();
 
   const [switchValues, setSwitchValues] = useState<SwitchValues>(
@@ -147,46 +154,63 @@ const SwitchTable: React.FC<Props> = ({ group, setTabIndex, setGroupList }) => {
     };
   }, [isLoading]);
 
+  const [tableIn, setTableIn] = useState<boolean>(false);
+  useEffect(() => {
+    setTimeout(() => {
+      setTableIn(true);
+    }, 250);
+
+    return () => {
+      setTableIn(false);
+    };
+  }, [tabIndex]);
+
   return (
     <>
       <div
         ref={divRef}
-        style={{ width: "100%", overflowX: isScrollable ? "scroll" : "hidden" }}
+        style={{
+          width: "100%",
+          overflowX: isScrollable ? "scroll" : "hidden",
+          overflowY: "hidden",
+        }}
       >
         <LoadingIndicator isLoading={isLoading} />
-        <Table variant="simple">
-          <Thead>
-            <Tr>
-              <Th>{group}</Th>
-              {tableHeaders.map((header) => (
-                <Th key={header} maxWidth="100px">
-                  {header}
-                </Th>
-              ))}
-            </Tr>
-          </Thead>
-          <Tbody>
-            {days.map((day, idx) => (
-              <Tr key={day} height="70px">
-                <Td>{day}</Td>
-                {Object.entries(switchValues[idx].data).map(
-                  (keysAndValues, idx) => (
-                    <Td key={`${day} - ${idx}`} maxWidth="100px">
-                      <Switch
-                        isDisabled={isLoading}
-                        isChecked={keysAndValues[1]}
-                        onChange={() =>
-                          handleSwitchChange(day, keysAndValues[0])
-                        }
-                        size="lg"
-                      />
-                    </Td>
-                  )
-                )}
+        <SlideFade in={tableIn} offsetX="10px">
+          <Table>
+            <Thead>
+              <Tr>
+                <Th>{group}</Th>
+                {tableHeaders.map((header) => (
+                  <Th key={header} maxWidth="100px">
+                    {header}
+                  </Th>
+                ))}
               </Tr>
-            ))}
-          </Tbody>
-        </Table>
+            </Thead>
+            <Tbody>
+              {days.map((day, idx) => (
+                <Tr key={day} height="70px">
+                  <Td>{day}</Td>
+                  {Object.entries(switchValues[idx].data).map(
+                    (keysAndValues, idx) => (
+                      <Td key={`${day} - ${idx}`} maxWidth="100px">
+                        <Switch
+                          isDisabled={isLoading}
+                          isChecked={keysAndValues[1]}
+                          onChange={() =>
+                            handleSwitchChange(day, keysAndValues[0])
+                          }
+                          size="lg"
+                        />
+                      </Td>
+                    )
+                  )}
+                </Tr>
+              ))}
+            </Tbody>
+          </Table>
+        </SlideFade>
       </div>
       <Grid my="40px" w="100%" templateColumns="repeat(3, 1fr)" gap={6}>
         <SettingsModal
