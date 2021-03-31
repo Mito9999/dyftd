@@ -176,11 +176,11 @@ const SwitchTable: React.FC<Props> = ({
         }}
       >
         <LoadingIndicator isLoading={isLoading} />
-        <SlideFade in={tableIn} offsetX="10px">
+        <SlideFade in={tableIn}>
           <Table>
             <Thead>
               <Tr>
-                <Th>{group}</Th>
+                <Th>{group.toString().padStart(6, "0")}</Th>
                 {tableHeaders.map((header) => (
                   <Th key={header} maxWidth="100px">
                     {header}
