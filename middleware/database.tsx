@@ -2,8 +2,6 @@ import dotenv from "dotenv";
 dotenv.config();
 import type { NextApiRequest, NextApiResponse } from "next";
 import { MongoClient, Db } from "mongodb";
-import nextConnect from "next-connect";
-
 export interface NextReq extends NextApiRequest {
   db: Db;
 }
@@ -43,7 +41,4 @@ const connectToDatabase = async (
   }
 };
 
-const middleware = nextConnect();
-middleware.use(connectToDatabase);
-
-export default middleware;
+export default connectToDatabase;
